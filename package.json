@@ -1,0 +1,30 @@
+{
+  "name": "dario-arena",
+  "author": {
+    "name": "Pablo BOURDELAS, Guillaume RYCKAERT"
+  },
+  "description": "A SMB 3 Battle mod inspired arena game in Full-JS ",
+  "homepage": "",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/94810/dario-arena.git"
+  },
+  "dependencies": {
+    "body-parser": "^1.16",
+    "cookie-parser": "^1.4",
+    "cookie-session": "^1.1",
+    "crypto": "0.0.3",
+    "csurf": "^1.9",
+    "express": "^4.14",
+    "express-session": "^1.15",
+    "mongodb": "^2.2.24",
+    "nodemon": "^1.11",
+    "serve-favicon": "^2.3",
+    "serve-static": "^1.11",
+    "twig": "^0.10"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}
