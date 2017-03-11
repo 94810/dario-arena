@@ -1,0 +1,37 @@
+<div id="navbar" style=width:100%>
+    <span id="home">
+        <a href='/home'> 
+            Home
+        </a>
+    </span>
+    <span id="userlist">
+        <a href='/userlist'>
+            Users
+        </a>
+    </span>
+    {% if login %}
+    <span id="account">
+        <a href='/account'>
+            My Account
+        </a>
+    </span>
+    <span id="game">
+        <a href='/game'>
+            Game
+        </a>
+    </span>
+    <span id="logout" style=float:right;>
+        <a href="/logout">
+            Logout
+        </a>
+    </span>
+    {% else %}
+    <span id="login" style=float:right;>
+        <form action='/login' method='POST'>
+            <input type="text" name="login" placeholder="Login">
+            <input type="password" name="pass" placeholder="Password">
+            <input type="submit" value="login">
+        </form>
+    </span>
+    {% endif %}
+</div>

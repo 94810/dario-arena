@@ -1,0 +1,20 @@
+{% include "navbar.twig" %}
+<p>Welcome back!</p>
+{% if failed==1 %}
+<span id="err" style=background:red;>
+I'm afraid this account doesn't exist...
+</span></br>
+<a href="/signup"> You can create one here</a>
+{% endif %}
+{% if failed==2 %}
+<span id="err2" style=background:red;>
+Wrong password
+</span>
+{% endif %}
+<form action="/login" method="POST">
+<input type="text" name="login" placeholder="login" autocomplete="username"  required > </br>
+<input type="password" name="pass" placeholder="password" autocomplete="off" required > </br>
+<input type="submit" value="login"> 
+</form>
+</br>
+<span> No account? You can signup <a href="/signup"> here </a> </span>

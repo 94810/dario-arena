@@ -1,0 +1,39 @@
+{% include "css.twig" %}
+{% include "navbar.twig" %}
+<table id=userlist>
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                Kills
+            </th>
+            <th>
+                Deaths
+            </th>
+            <th>
+                Played
+            </th> 
+            <th>
+                Won
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for u in docs %}
+        <tr>
+        {% for c in u %} 
+            <td>
+            {% if c==login %}
+            <a href=/account>{{ c }}</a>
+            {% else %}
+            {{ c }}
+            {% endif %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% include "endpage.twig" %}
