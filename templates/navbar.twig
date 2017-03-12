@@ -1,21 +1,21 @@
 <div id="navbar" style=width:100%>
-    <span id="home">
+    <span id="home" style=float:left;>
         <a href='/home'> 
             Home
         </a>
     </span>
-    <span id="userlist">
+    <span id="userlist" style=float:left; >
         <a href='/userlist'>
             Users
         </a>
     </span>
     {% if login %}
-    <span id="account">
+    <span id="account" style=float:left;>
         <a href='/account'>
             My Account
         </a>
     </span>
-    <span id="game">
+    <span id="game" style=float:left>
         <a href='/game'>
             Game
         </a>
@@ -25,13 +25,19 @@
             Logout
         </a>
     </span>
-    {% else %}
+    {% else %}    
+    <span id=signup style=float:right;>
+        <a href="/signup">
+            Signup
+        </a>
+    </span>
     <span id="login" style=float:right;>
         <form action='/login' method='POST'>
-            <input type="text" name="login" placeholder="Login">
+            <input type="text" name="login" placeholder="Username">
             <input type="password" name="pass" placeholder="Password">
-            <input type="submit" value="login">
+            <input type="submit" value="Login">
         </form>
     </span>
+
     {% endif %}
 </div>
