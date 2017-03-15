@@ -75,6 +75,7 @@ app.post('/up',function(req,res)
             })
         })
     });
+
 app.all('/account',function(req,res)
     {
         if(req.session.user)
