@@ -1,5 +1,6 @@
 {
   "name": "dario-arena",
+  "main" : "projt.js", 	
   "author": {
     "name": "Pablo BOURDELAS, Guillaume RYCKAERT"
   },
