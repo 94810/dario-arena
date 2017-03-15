@@ -1,5 +1,5 @@
 ```
-   - Pablo Bourdelas -                                 - Guillaume Ryckart -
+   - Pablo Bourdelas -                                 - Guillaume Ryckaert -
                                     PRESENT
 
     	          d8888b.                        	             
