@@ -30,6 +30,12 @@ app.use(session({
 }));
 
 
+
+//CONFIG APPS
+app.set('port', (process.env.PORT || 5000));
+
+
+
 app.get('/signup',function(req,res){
  /*   if (req.query[0]==null)
     {
@@ -93,6 +99,7 @@ app.all('/account',function(req,res)
             res.redirect('/login');
         }
     });
+
 app.get('/login',function(req,res)
     {
         if(req.session.user)
@@ -104,6 +111,7 @@ app.get('/login',function(req,res)
             res.render('login.twig',{"failed":req.query["failed"]});
         }
     });
+
 app.post('/login',function(req,res)
     {
         MongoClient.connect(dburl,function(err,db)
@@ -136,11 +144,13 @@ app.post('/login',function(req,res)
             });
         });
     });
+
 app.all('/logout',function(req,res)
     {
         req.session.user=null;
         res.redirect("/login");
     });
+
 app.get('/delete',function(req,res)
     {
         if(req.session.user)
@@ -152,6 +162,7 @@ app.get('/delete',function(req,res)
             res.redirect("/login");
         }
     });
+
 app.post('/delete',function(req,res)
     {
         MongoClient.connect(dburl,function(err,db)
@@ -165,10 +176,12 @@ app.post('/delete',function(req,res)
 
         });
 });
+
 app.get('/home',function(req,res)
     {
         res.render('home.twig',{"login":req.session.user});
     });
+
 app.get('/userlist',function(req,res)
     {
             MongoClient.connect(dburl,function(err,db)
@@ -212,8 +225,12 @@ app.get ('/admin',function(req,res)
             res.redirect('/login');
         }
     });
+
+app.get('/', function(req, res){
+	res.send("Hello");
+});
         
 app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+  console.log('Node app is running on port'+app.get('port'));
 });
 
