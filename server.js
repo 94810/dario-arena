@@ -213,4 +213,7 @@ app.get ('/admin',function(req,res)
         }
     });
         
-app.listen(2048);
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
+
