@@ -1,3 +1,4 @@
+{% include "css.twig" %}
 {% include "navbar.twig" %}
 <p>Welcome back!</p>
 {% if failed==1 %}
@@ -18,3 +19,5 @@ Wrong password
 </form>
 </br>
 <span> No account? You can signup <a href="/signup"> here </a> </span>
+
+{% include "endpage.twig" %}

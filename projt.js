@@ -14,7 +14,7 @@ var db;
 var dblogin=encodeURIComponent('RW');
 var dbpassword= encodeURIComponent('gargamel');
 
-var dburl=f('mongodb://%s:%s@localhost:27017/test?authMechanism=DEFAULT',dblogin,dbpassword);
+var dburl=f('mongodb://%s:%s@ds129720.mlab.com:29720/dario-arena?authMechanism=DEFAULT',dblogin,dbpassword);
 
 var app = express();
 app
@@ -171,21 +171,46 @@ app.get('/home',function(req,res)
     });
 app.get('/userlist',function(req,res)
     {
-        MongoClient.connect(dburl,function(err,db)
-        {
-            var lel=db.collection("users");
-            lel.find({},{Password:0,Salt:0,admin:0,lastModified:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
-                {
-                    res.render('userlist.twig',{"docs":docs,
-                                                "login":req.session.user
-                                               });
-                });
-        });
+            MongoClient.connect(dburl,function(err,db)
+            {
+                var lel=db.collection("users");
+                lel.find({},{Password:0,Salt:0,admin:0,lastModified:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
+                    {
+                        res.render('userlist.twig',{"docs":docs,
+                                                    "login":req.session.user
+                                                    });
+                    });
+            });
+
     });
 
-/*app.get('/style.css',function(req,res)
+app.get ('/admin',function(req,res)
     {
-        res.sendFile(__dirname+"/style.css");
-    });*/
-
+    if (req.session.user)
+        {
+        MongoClient.connect(dburl,function(err,db)
+            {
+                var lel=db.collection("users");
+                lel.find({_id:req.session.user},{"admin":1}).toArray(function(err,docs)
+                    {
+                        console.log(docs);
+                        if (!docs[0]["admin"])
+                            {
+                                res.writeHead(403);
+                                res.render("error.twig",{"login":req.session.user,
+                                                         "errorcode": 403 });
+                            }
+                        else
+                            {
+                                res.render("admin.twig",{"login":req.session.user});
+                            }
+                    });
+            });
+        }
+        else 
+        {   
+            res.redirect('/login');
+        }
+    });
+        
 app.listen(2048);
