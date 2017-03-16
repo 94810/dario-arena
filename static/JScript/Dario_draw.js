@@ -1,9 +1,7 @@
 //FLESH 25 230 213
 //
 
-function dario(r, g, b){
-
-    	var ctx = document.getElementById("canvas").getContext("2d");
+function dario(r, g, b, ctx){
 
     	var shirt_color = 'rgb('+r+','+g+','+b+')';
         var shirt_shadow = 'rgb('+Math.round(0.80*r)+','+Math.round(0.80*g)+','+Math.round(0.80*b)+')';
@@ -277,8 +275,7 @@ function dario(r, g, b){
 	ctx.restore();
 }
 
-function dario_run(r, g, b){
-    	var ctx = document.getElementById("canvas").getContext("2d");
+function dario_run(r, g, b, ctx){
     	
 	var shirt_color = 'rgb('+r+','+g+','+b+')';
         var shirt_shadow = 'rgb('+Math.round(0.80*r)+','+Math.round(0.80*g)+','+Math.round(0.80*b)+')';
