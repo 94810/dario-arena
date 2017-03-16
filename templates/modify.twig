@@ -1,0 +1,35 @@
+{% include "css.twig" %}
+{% include "navbar.twig" %}
+    <div id="admin_page">
+        <span id="account_creator">
+            <form action="/admin_modify" method="POST">
+               [---ACCOUNT MODIFYER---] 
+                <div>
+                <input type="hidden" name="login" value={{ old_login }}>
+                WON </br>               
+                <input type="number" name="won" value={{ old_won }} required>
+                </div>
+                <div>
+                PLAYED </br>
+                <input type="number" name="played" value={{ old_played }} required>
+                </div>
+                <div>
+                KILLS </br>
+                <input type="number" name="kills" value={{ old_kills }} required>  
+                </div>
+                <div>
+                DEATHS </br>
+                <input type="number" name="deaths" value={{ old_deaths }} required>
+                </div>
+                <div>
+                ADMIN?
+                <!--TODO checkbox -->
+                <input type="checkbox" name="admin" value={{ old_admin }}>
+                </div>
+                <div>
+                <input type="submit" value="Update account"> 
+                </div>
+            </form>
+        </span>
+    </div>
+{% include "endpage.twig" %}

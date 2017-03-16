@@ -38,6 +38,7 @@ body{
     float:left;
     font-weight:bold;
     margin-top:7.5%;
+    margin-left:2%;
 }
 #userlist{
     float:left;
@@ -64,4 +65,33 @@ body{
 #stats{
     border-collapse: separate;
     border-spacing:0.5% 0.5%;
+}
+#account_modifier{
+    text-align:center;
+    float:left;
+    font-weight:bold;
+    margin-top:7.5%;
+    margin-left:2%;
+    margin-right:2%;
+}
+#account_deleter{
+    text-align:center;
+    font-weight:bold;
+    margin-top:7.5%;
+    float:left;
+    margin-right:2%
+}
+#admin_page{
+    text-align:center;
+    width:100%;
+}
+
+#account_modifier div{
+    margin-top:2%;
+}
+#account_creator div{
+    margin-top:2%;
+}
+#account_deleter div{
+    margin-top:2%;
 }

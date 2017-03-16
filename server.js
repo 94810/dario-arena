@@ -210,13 +210,17 @@ app.get ('/admin',function(req,res)
                         console.log(docs);
                         if (!docs[0]["admin"])
                             {
-                                res.writeHead(403);
+                                //res.writeHead(403);
                                 res.render("error.twig",{"login":req.session.user,
                                                          "errorcode": 403 });
                             }
                         else
                             {
-                                res.render("admin.twig",{"login":req.session.user});
+                                lel.find({},{_id:1}).toArray(function(err,docs)
+                                    {
+                                    res.render("admin.twig",{"login":req.session.user,
+                                                             "ulist":docs });
+                                    });
                             }
                     });
             });
@@ -230,8 +234,92 @@ app.get ('/admin',function(req,res)
 app.get('/', function(req, res){
 	res.send("Hello");
 });
-        
+
+app.post('/admin_create',function(req,res)
+    {
+        if (req.body["admin"]==1)
+            {
+                var adm=1;
+            }
+        else 
+            {
+                var adm=0;
+            }
+        MongoClient.connect(dburl,function(err,db)
+        {
+            var lel=db.collection("users");
+            var salt=crypto.randomBytes(64).toString('hex');
+            var iterations=1000;
+            crypto.pbkdf2(req.body["pass"],salt,iterations,128,'sha512',function(err,hash)
+                {
+                        lel.insert([ { "_id": req.body["login"],"Password": hash.toString('hex'),"Kills": req.body["kills"],"Deaths":req.body["deaths"],"Salt":salt,"Played":req.body["played"],"Won":req.body["won"],"admin":adm}],function(err,result)
+                            {
+                                res.redirect("/userlist");
+                            });
+                });
+        });
+});
+
+app.get('/admin_modify',function(req,res)
+    {
+    MongoClient.connect(dburl,function(err,db)
+            {
+                var lel=db.collection("users");
+                lel.find({_id:req.query["login"]},{Password:0,Salt:0,lastModified:0}).toArray(function(err,docs)
+                    {
+                        console.log(docs[0]);
+                        if(docs[0]["admin"]=1)
+                        {
+                            var adm="on";
+                        }
+                        else
+                        {
+                            var adm="";
+                        }
+                        res.render('modify.twig',{"old_won":docs[0]["Won"],
+                                                  "old_played":docs[0]["Played"],
+                                                  "old_kills":docs[0]["Kills"],
+                                                  "old_deaths":docs[0]["Deaths"],
+                                                  "old_admin":adm,
+                                                  "login":req.session.user,
+                                                  "old_login":req.query["login"]
+                                                });
+
+                    });
+            });
+    });
+
+app.post('/admin_modify',function(req,res)
+    {
+    if (req.body["admin"]==1)
+    {
+        var adm=1;
+    }
+    else
+    {
+        var adm=0;
+    }
+    MongoClient.connect(dburl,function(err,db)
+            {
+            var lel=db.collection("users");
+            lel.update({_id:req.body["login"]},{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm});
+        res.redirect('/userlist');
+
+            });
+
+    });
+app.post("/admin_delete",function(req,res)
+    {
+    MongoClient.connect(dburl,function(err,db)
+            {
+            var lel=db.collection("users");
+            lel.remove({_id:req.body["login"]});
+            res.redirect('/userlist'); 
+            });
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port '+app.get('port'));  
 });
+
 
