@@ -1,4 +1,5 @@
 // IT'S ME,DARIO!
+var http = require('http');
 var express = require('express');
 var bodyP = require('body-parser');
 var cookieP = require('cookie-parser');
@@ -9,6 +10,7 @@ var MongoClient = require ('mongodb').MongoClient
 ,   assert =require ('assert');
 var session= require ('express-session');
 
+var ws = require('ws');
 
 var db;
 var dblogin=encodeURIComponent('RW');
@@ -19,21 +21,46 @@ var dburl=f('mongodb://%s:%s@ds129720.mlab.com:29720/dario-arena?authMechanism=D
 var app = express();
 app
     .use(bodyP.urlencoded({ extended: false }))
-    .use(cookieP());
+    .use(cookieP())
+    .use(express.static('./static'));
+
 app.use('/s', express.static('static'));
+
 app.set('views', 'templates');
+
 app.set("twig options", { autoescape: true });
-app.use(session({
+app.set("port", process.env.PORT || 8080);
+
+
+var sesP = session({
     secret :crypto.randomBytes(10).toString('base64'),
     resave :false,
     saveUninitialized:false,
-}));
+});
+
+app.use(sesP);
+
+var server = http.createServer(app);
+
+var wsS = new ws.Server({
+	server : server,
+
+	verifyClient: function(info, cb){
+		sesP(info.req, {}, ()=>{	
+			cb(info.req.session.user);
+		});
+	}
+});
 
 
-
-//CONFIG APPS
-app.set('port', (process.env.PORT || 5000));
-
+// ###### WebSocket Logic #########
+wsS.on('connection', function(wsC){
+	wsC.send('READY');
+	wsC.on('message', function(data){
+		console.log(data);
+	});
+});
+// ###### End #########
 
 
 app.get('/signup',function(req,res){
@@ -235,6 +262,11 @@ app.get('/', function(req, res){
 	res.send("Hello");
 });
 
+app.get('/arena', function(req, res){
+	
+	if(req.session.user) res.render("arena.twig");
+	else res.redirect("/login");
+});
 app.post('/admin_create',function(req,res)
     {
         if (req.body["admin"]==1)
@@ -318,8 +350,8 @@ app.post("/admin_delete",function(req,res)
             });
 });
 
-app.listen(app.get('port'), function() {
+        
+server.listen(app.get('port'), function() {
   console.log('Node app is running on port '+app.get('port'));  
 });
-
 
