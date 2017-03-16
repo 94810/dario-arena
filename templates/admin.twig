@@ -1,0 +1,39 @@
+{% include "css.twig" %}
+{% include "navbar.twig" %}
+    <div id="admin_page">
+        <span id="account_creator">
+            <form action="/admin_create" method="POST">
+               [---ACCOUNT CREATOR ---] 
+                <div>
+                <input type="text" name="login" placeholder="Login">
+                </div>
+                <div>
+                <input type="password" name="pass" placeholder="Password">
+                </div>
+                <div>
+                WON </br>               
+                <input type="number" name="won">
+                </div>
+                <div>
+                PLAYED </br>
+                <input type="number" name="played">    
+                </div>
+                <div>
+                KILLS </br>
+                <input type="number" name="kills">  
+                </div>
+                <div>
+                DEATHS </br>
+                <input type="number" name="deaths">
+                </div>
+                <div>
+                ADMIN?
+                <input type="checkbox" name="admin">
+                </div>
+                <div>
+                <input type="submit" value="Create"> 
+                </div>
+            </form>
+        </span>
+    </div>
+{% include "endpage.twig" %}
