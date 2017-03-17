@@ -40,5 +40,6 @@ function run(){
 
 	ctx.restore();
 }
+
 setInterval(run, interv);
  

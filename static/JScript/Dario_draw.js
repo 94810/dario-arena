@@ -638,6 +638,407 @@ function dario_run(r, g, b, ctx){
 }
 
 
+function dario_jump(r, g, b, ctx){
+    	
+    	var shirt_color = 'rgb('+r+','+g+','+b+')';
+        var shirt_shadow = 'rgb('+Math.round(0.80*r)+','+Math.round(0.80*g)+','+Math.round(0.80*b)+')';
+    	
+// #Dario
+	ctx.save();
+	ctx.transform(4.978488, 0.000000, 0.000000, 4.978488, -192.488550, 0.048618);
+	
+// #contour
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 39.127041;
+	ctx.fillStyle = 'rgb(0, 0, 0)';
+	ctx.moveTo(45.328125, -0.009766);
+	ctx.lineTo(45.328125, 1.330078);
+	ctx.lineTo(51.988281, 1.330078);
+	ctx.lineTo(51.988281, -0.009766);
+	ctx.moveTo(51.988281, 1.330078);
+	ctx.lineTo(51.988281, 2.662109);
+	ctx.lineTo(53.328125, 2.662109);
+	ctx.lineTo(53.328125, 1.330078);
+	ctx.moveTo(53.328125, 2.662109);
+	ctx.lineTo(53.328125, 3.996094);
+	ctx.lineTo(53.328125, 5.333984);
+	ctx.lineTo(53.328125, 5.337894);
+	ctx.bezierCurveTo(54.209819, 5.339724, 55.190916, 5.333564, 55.996094, 5.333984);
+	ctx.lineTo(55.996094, 3.996094);
+	ctx.lineTo(54.664062, 3.996094);
+	ctx.lineTo(54.664062, 2.662109);
+	ctx.moveTo(54.664062, 2.662109);
+	ctx.lineTo(56.000000, 2.662109);
+	ctx.lineTo(56.000000, 1.330078);
+	ctx.lineTo(54.664062, 1.330078);
+	ctx.moveTo(56.000000, 1.330078);
+	ctx.lineTo(58.666016, 1.330078);
+	ctx.lineTo(58.666016, -0.001953);
+	ctx.lineTo(56.000000, -0.001953);
+	ctx.moveTo(58.666016, 1.330078);
+	ctx.lineTo(58.666016, 3.998047);
+	ctx.lineTo(59.996094, 3.998047);
+	ctx.lineTo(59.996094, 1.330078);
+	ctx.moveTo(58.666016, 3.998047);
+	ctx.lineTo(57.330078, 3.998047);
+	ctx.lineTo(57.330078, 5.333984);
+	ctx.lineTo(55.996094, 5.333984);
+	ctx.lineTo(55.996094, 7.998047);
+	ctx.lineTo(52.001953, 7.998047);
+	ctx.lineTo(52.001953, 6.666016);
+	ctx.lineTo(50.669922, 6.666016);
+	ctx.lineTo(50.669922, 7.998047);
+	ctx.lineTo(49.312500, 7.998047);
+	ctx.lineTo(49.312500, 9.326172);
+	ctx.lineTo(55.996094, 9.326172);
+	ctx.lineTo(55.996094, 10.666016);
+	ctx.lineTo(57.339844, 10.666016);
+	ctx.lineTo(57.339844, 7.988281);
+	ctx.lineTo(58.666016, 7.988281);
+	ctx.moveTo(55.996094, 10.666016);
+	ctx.lineTo(54.664062, 10.666016);
+	ctx.lineTo(54.664062, 14.677734);
+	ctx.lineTo(55.996094, 14.677734);
+	ctx.lineTo(55.996094, 13.326172);
+	ctx.lineTo(58.656250, 13.326172);
+	ctx.lineTo(58.656250, 11.998047);
+	ctx.lineTo(55.996094, 11.998047);
+	ctx.moveTo(58.656250, 13.326172);
+	ctx.lineTo(58.656250, 15.990234);
+	ctx.lineTo(59.992188, 15.990234);
+	ctx.lineTo(59.992188, 13.326172);
+	ctx.moveTo(58.656250, 15.990234);
+	ctx.lineTo(57.332031, 15.990234);
+	ctx.lineTo(57.332031, 18.662109);
+	ctx.lineTo(58.656250, 18.662109);
+	ctx.moveTo(57.332031, 18.662109);
+	ctx.lineTo(54.656250, 18.662109);
+	ctx.lineTo(54.656250, 19.990234);
+	ctx.lineTo(57.332031, 19.990234);
+	ctx.moveTo(54.656250, 18.662109);
+	ctx.lineTo(54.656250, 17.345703);
+	ctx.lineTo(47.994141, 17.345703);
+	ctx.bezierCurveTo(47.993258, 18.222339, 47.996241, 19.199855, 47.996141, 19.998047);
+	ctx.lineTo(50.648485, 19.998047);
+	ctx.lineTo(50.648485, 18.662109);
+	ctx.moveTo(47.996094, 19.998047);
+	ctx.lineTo(44.000000, 19.998047);
+	ctx.lineTo(44.000000, 21.326172);
+	ctx.lineTo(47.996094, 21.326172);
+	ctx.moveTo(44.000000, 19.998047);
+	ctx.lineTo(44.000000, 18.660156);
+	ctx.lineTo(42.669922, 18.660156);
+	ctx.lineTo(42.669922, 19.998047);
+	ctx.moveTo(42.669922, 19.998047);
+	ctx.lineTo(40.001953, 19.998047);
+	ctx.lineTo(40.001953, 21.328125);
+	ctx.lineTo(42.669922, 21.328125);
+	ctx.moveTo(40.001953, 19.998047);
+	ctx.lineTo(40.001953, 17.333984);
+	ctx.lineTo(38.669922, 17.333984);
+	ctx.lineTo(38.669922, 19.998047);
+	ctx.moveTo(40.001953, 17.333984);
+	ctx.lineTo(41.326172, 17.333984);
+	ctx.lineTo(41.326172, 15.996094);
+	ctx.lineTo(40.001953, 15.996094);
+	ctx.moveTo(40.001953, 15.996094);
+	ctx.lineTo(40.001953, 13.326172);
+	ctx.lineTo(38.664062, 13.326172);
+	ctx.lineTo(38.664062, 15.996094);
+	ctx.moveTo(40.001953, 13.326172);
+	ctx.lineTo(42.316406, 13.326172);
+	ctx.lineTo(42.316406, 13.318372);
+	ctx.lineTo(42.658203, 13.318372);
+	ctx.lineTo(42.658203, 10.667982);
+	ctx.lineTo(41.332031, 10.667982);
+	ctx.lineTo(41.332031, 12.007825);
+	ctx.lineTo(40.001953, 12.007825);
+	ctx.moveTo(45.328125, 1.330078);
+	ctx.lineTo(44.003906, 1.330078);
+	ctx.lineTo(44.003906, 2.666016);
+	ctx.lineTo(45.328125, 2.666016);
+	ctx.moveTo(44.003906, 2.666016);
+	ctx.lineTo(42.664062, 2.666016);
+	ctx.lineTo(42.664062, 5.326172);
+	ctx.lineTo(45.335938, 5.326172);
+	ctx.lineTo(45.335938, 7.990234);
+	ctx.lineTo(47.992188, 7.990234);
+	ctx.lineTo(47.992188, 5.326172);
+	ctx.lineTo(46.664062, 5.326172);
+	ctx.lineTo(46.664062, 3.998047);
+	ctx.lineTo(45.335938, 3.998047);
+	ctx.lineTo(44.003906, 3.998047);
+	ctx.moveTo(45.335938, 7.990234);
+	ctx.lineTo(42.664062, 7.990234);
+	ctx.lineTo(42.664062, 9.333984);
+	ctx.lineTo(44.000000, 9.333984);
+	ctx.lineTo(44.000000, 10.669922);
+	ctx.lineTo(46.664062, 10.669922);
+	ctx.lineTo(46.664062, 9.318359);
+	ctx.lineTo(45.335938, 9.318359);
+	ctx.moveTo(42.664062, 7.990234);
+	ctx.lineTo(42.664062, 5.326172);
+	ctx.lineTo(41.335938, 5.326172);
+	ctx.lineTo(41.335938, 7.990234);
+	ctx.moveTo(44.000000, 14.669922);
+	ctx.lineTo(44.000000, 15.998047);
+	ctx.lineTo(42.656250, 15.998047);
+	ctx.lineTo(42.656250, 17.333984);
+	ctx.bezierCurveTo(43.545601, 17.335584, 44.442554, 17.333641, 45.328125, 17.330084);
+	ctx.lineTo(45.328125, 14.669928);
+	ctx.fill();
+	
+// #beanie
+	
+// #rect130
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 85.526237;
+	ctx.fillStyle = 'rgb(200, 190, 183)';
+	ctx.rect(45.328125, 1.330078, 6.660155, 1.332031);
+	ctx.fill();
+	
+// #rect132
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 50.727074;
+	ctx.fillStyle = 'rgb(145, 124, 111)';
+	ctx.rect(44.003906, 2.662109, 9.324219, 1.335938);
+	ctx.fill();
+	
+// #Glass
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 29.139551;
+	ctx.fillStyle = 'rgb(255, 212, 42)';
+	ctx.moveTo(47.992188, 3.998047);
+	ctx.lineTo(47.992188, 5.326172);
+	ctx.lineTo(50.669922, 5.326172);
+	ctx.lineTo(50.669922, 6.666016);
+	ctx.lineTo(53.320312, 6.666016);
+	ctx.bezierCurveTo(53.316612, 5.783979, 53.329112, 4.807661, 53.328112, 3.998047);
+	ctx.fill();
+	
+// #pants
+	
+// #jeans
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 81.268440;
+	ctx.fillStyle = 'rgb(95, 141, 211)';
+	ctx.moveTo(55.996094, 13.326172);
+	ctx.lineTo(55.996094, 14.677734);
+	ctx.lineTo(54.664062, 14.677734);
+	ctx.lineTo(54.664062, 18.662109);
+	ctx.lineTo(57.332031, 18.662109);
+	ctx.lineTo(57.332031, 15.990234);
+	ctx.lineTo(58.656250, 15.990234);
+	ctx.lineTo(58.656250, 13.326172);
+	ctx.moveTo(41.326172, 15.998047);
+	ctx.lineTo(41.326172, 17.333984);
+	ctx.lineTo(40.001953, 17.333984);
+	ctx.lineTo(40.001953, 19.998047);
+	ctx.lineTo(42.669922, 19.998047);
+	ctx.lineTo(42.669922, 17.333984);
+	ctx.lineTo(42.656250, 17.333984);
+	ctx.lineTo(42.656250, 15.998047);
+	ctx.moveTo(44.000000, 17.345703);
+	ctx.lineTo(44.000000, 19.998047);
+	ctx.lineTo(47.994141, 19.998047);
+	ctx.lineTo(47.994141, 17.345703);
+	ctx.fill();
+	
+// #shadow-jeans
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 45.995682;
+	ctx.fillStyle = 'rgb(33, 103, 120)';
+	ctx.moveTo(45.328125, 15.986328);
+	ctx.lineTo(45.328125, 17.330078);
+	ctx.lineTo(54.656250, 17.330078);
+	ctx.lineTo(54.664050, 15.982422);
+	ctx.moveTo(42.669922, 17.333984);
+	ctx.lineTo(42.669922, 18.660156);
+	ctx.lineTo(44.000000, 18.660156);
+	ctx.lineTo(44.000000, 17.333984);
+	ctx.fill();
+	
+// #flesh
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 43.013969;
+	ctx.fillStyle = 'rgb(255, 230, 213)';
+	ctx.moveTo(56.000000, 1.330078);
+	ctx.lineTo(56.000000, 2.662109);
+	ctx.lineTo(54.664062, 2.662109);
+	ctx.lineTo(54.664062, 3.998047);
+	ctx.lineTo(56.000000, 3.998047);
+	ctx.lineTo(58.666016, 3.998047);
+	ctx.lineTo(58.666016, 2.662109);
+	ctx.lineTo(58.666016, 1.330078);
+	ctx.moveTo(46.664062, 3.998047);
+	ctx.lineTo(46.664062, 5.326172);
+	ctx.lineTo(47.992188, 5.326172);
+	ctx.lineTo(47.992188, 3.998047);
+	ctx.moveTo(47.992188, 5.326172);
+	ctx.lineTo(47.992188, 7.990234);
+	ctx.lineTo(45.335938, 7.990234);
+	ctx.lineTo(45.335938, 9.318359);
+	ctx.bezierCurveTo(45.772388, 9.315459, 46.210899, 9.318972, 46.664062, 9.320309);
+	ctx.lineTo(46.664062, 10.669922);
+	ctx.lineTo(48.000000, 10.669922);
+	ctx.lineTo(48.000000, 11.998047);
+	ctx.lineTo(49.335938, 11.998047);
+	ctx.lineTo(49.335938, 13.328125);
+	ctx.lineTo(53.328125, 13.328125);
+	ctx.lineTo(53.332031, 12.000000);
+	ctx.lineTo(52.005859, 12.000000);
+	ctx.lineTo(51.998059, 10.666016);
+	ctx.lineTo(54.664074, 10.666016);
+	ctx.lineTo(54.664074, 9.326172);
+	ctx.lineTo(49.312500, 9.326172);
+	ctx.lineTo(49.312500, 8.839844);
+	ctx.lineTo(49.312500, 7.990234);
+	ctx.lineTo(50.669922, 7.990234);
+	ctx.lineTo(50.669922, 5.326172);
+	ctx.moveTo(45.335938, 7.990234);
+	ctx.lineTo(45.335938, 5.326172);
+	ctx.lineTo(42.664062, 5.326172);
+	ctx.lineTo(42.664062, 7.990234);
+	ctx.moveTo(53.328125, 5.337891);
+	ctx.lineTo(53.328125, 6.666016);
+	ctx.lineTo(52.001953, 6.666016);
+	ctx.lineTo(52.001953, 7.998047);
+	ctx.lineTo(53.328125, 7.998047);
+	ctx.lineTo(55.996094, 7.998047);
+	ctx.lineTo(55.996094, 6.666016);
+	ctx.lineTo(55.996094, 5.337891);
+	ctx.moveTo(42.658203, 10.669922);
+	ctx.lineTo(42.658203, 15.998047);
+	ctx.lineTo(44.000000, 15.998047);
+	ctx.lineTo(44.000000, 13.333984);
+	ctx.lineTo(45.335938, 13.333984);
+	ctx.lineTo(45.335938, 11.998047);
+	ctx.lineTo(44.000000, 11.998047);
+	ctx.lineTo(44.000000, 10.669922);
+	ctx.moveTo(40.001953, 13.326172);
+	ctx.lineTo(40.001953, 15.998047);
+	ctx.lineTo(42.656250, 15.998047);
+	ctx.lineTo(42.656250, 13.326172);
+	ctx.fill();
+	
+// #flash-shadow
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 178.207184;
+	ctx.fillStyle = 'rgb(255, 179, 128)';
+	ctx.moveTo(55.996094, 3.996094);
+	ctx.lineTo(55.996094, 5.333984);
+	ctx.lineTo(57.330078, 5.333984);
+	ctx.lineTo(57.330078, 3.996094);
+	ctx.moveTo(54.664062, 9.326172);
+	ctx.lineTo(54.664062, 10.666016);
+	ctx.lineTo(55.996094, 10.666016);
+	ctx.lineTo(55.996094, 9.326172);
+	ctx.moveTo(54.664062, 10.666016);
+	ctx.lineTo(53.332031, 10.666016);
+	ctx.lineTo(53.332031, 12.000000);
+	ctx.lineTo(54.664062, 12.000000);
+	ctx.moveTo(44.000000, 10.669922);
+	ctx.lineTo(44.000000, 11.998047);
+	ctx.lineTo(45.335938, 11.998047);
+	ctx.lineTo(45.335938, 10.669922);
+	ctx.moveTo(45.335938, 11.998047);
+	ctx.lineTo(45.335938, 13.333984);
+	ctx.lineTo(44.000000, 13.333984);
+	ctx.lineTo(44.000000, 14.669922);
+	ctx.lineTo(46.671875, 14.669922);
+	ctx.lineTo(46.671875, 13.333984);
+	ctx.lineTo(46.671875, 11.998047);
+	ctx.fill();
+	
+// #shirt
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 51.602989;
+	ctx.fillStyle = shirt_color;
+	ctx.moveTo(46.664062, 10.669922);
+	ctx.lineTo(46.664062, 11.998047);
+	ctx.lineTo(48.000000, 11.998047);
+	ctx.lineTo(48.000000, 10.669922);
+	ctx.moveTo(48.000000, 11.998047);
+	ctx.lineTo(48.000000, 14.669922);
+	ctx.lineTo(46.671875, 14.669922);
+	ctx.lineTo(46.671875, 15.982422);
+	ctx.bezierCurveTo(49.382253, 15.982452, 52.223187, 15.986422, 54.703125, 15.986322);
+	ctx.lineTo(54.656255, 13.328119);
+	ctx.lineTo(49.335943, 13.328119);
+	ctx.lineTo(49.335943, 11.998041);
+	ctx.fill();
+	
+// #shirt_shadow
+	ctx.beginPath();
+	ctx.globalAlpha = 1.0;
+	ctx.lineJoin = 'bevel';
+	ctx.lineCap = 'butt';
+	ctx.miterLimit = 4;
+	ctx.lineWidth = 96.577499;
+	ctx.fillStyle = shirt_shadow;
+	ctx.moveTo(51.998047, 10.666016);
+	ctx.lineTo(51.998047, 12.000000);
+	ctx.lineTo(53.332031, 12.000000);
+	ctx.lineTo(53.332031, 10.666016);
+	ctx.moveTo(53.332031, 12.000000);
+	ctx.lineTo(53.332031, 13.328125);
+	ctx.lineTo(54.656250, 13.328125);
+	ctx.lineTo(54.656250, 12.000000);
+	ctx.moveTo(45.335938, 10.669922);
+	ctx.lineTo(45.335938, 11.998047);
+	ctx.lineTo(46.664062, 11.998047);
+	ctx.lineTo(46.664062, 10.669922);
+	ctx.moveTo(46.671875, 11.998047);
+	ctx.lineTo(46.671875, 14.669922);
+	ctx.lineTo(48.000000, 14.669922);
+	ctx.lineTo(48.000000, 11.998047);
+	ctx.moveTo(46.671875, 14.669922);
+	ctx.lineTo(45.328125, 14.669922);
+	ctx.lineTo(45.328125, 15.986328);
+	ctx.lineTo(46.671875, 15.986328);
+	ctx.fill();
+	
+	ctx.restore(); 
+
+}
+
+
 var Dario = {
 	red : 255,
 	green : 255,
