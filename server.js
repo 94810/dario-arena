@@ -264,7 +264,7 @@ app.get('/', function(req, res){
 
 app.get('/arena', function(req, res){
 	
-	if(req.session.user) res.render("arena.twig");
+	if(true) res.render("arena.twig");
 	else res.redirect("/login");
 });
 app.post('/admin_create',function(req,res)

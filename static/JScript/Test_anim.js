@@ -41,5 +41,17 @@ function run(){
 	ctx.restore();
 }
 
-setInterval(run, interv);
+var pl = new Player(keyboard, {'x': 0, 'y':0}, 255, 255, 255);
+
+function Anim(){
+	
+	var ctx = document.getElementById('gameCanvas').getContext('2d');
+	ctx.clearRect(0,0,900,150);
+	pl.update(ctx);
+
+	window.requestAnimationFrame(Anim);
+}
+
+window.requestAnimationFrame(Anim);
+//setInterval(run, interv);
  

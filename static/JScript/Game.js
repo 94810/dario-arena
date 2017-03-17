@@ -15,8 +15,9 @@ var keyboard = {
 			break;
 		}
 	}
-} window.onkeydown = function () { keyboard.fct(evt, true) ; console.log(keyboard)}; window.onkeyup = function () { keyboard.fct(evt, false) ; console.log(keyboard) };
-
+} 
+window.onkeydown = function (evt){ keyboard.fct(evt, true) }
+window.onkeyup = function (evt) { keyboard.fct(evt, false) }
 
 function Player(controller, point, r, g, b){
 
@@ -28,7 +29,7 @@ function Player(controller, point, r, g, b){
 
 	this.ctrl = controller ;
 
-	this.facing = 1;
+	this.forward = true;
 
 	this.g = false; //Falling attribut
 
@@ -40,18 +41,47 @@ function Player(controller, point, r, g, b){
 
 	this.b = b;
 
-	this.lastUpdate = new Date();
+	this.lastUpdate = (new Date).getTime();
 
 	this.spd = 10;
 
+	this.running=false;
 	/*
 		HERE COME JUMPING VAR
 	*/
 
-	this.update = function(){
-		if(controller.left) this.pos.x-=spd ;
-		if(controller.right) this.pos.y+=spd ;
-		if(controller.jump) ; // TODO jumping
+	this.update = function(ctx){
+
+		if( (new Date).getTime()-this.lastUpdate > 110 ){
+
+			console.log("Up");	
+			if(this.ctrl.left){
+				this.pos.x-=spd;
+				this.forward = false;	
+				this.runing = !this.runing;
+			}
+			if(this.ctrl.right){
+				this.pos.x+=spd;
+				this.forward = true;
+				this.runing = !this.runing;
+			}
+			if(this.ctrl.jump) ; // TODO jumping
+	
+			this.lastUpdate = (new Date).getTime();
+		}
+		
+		ctx.save();
+		ctx.translate(this.pos.x, this.pos.y);
+		
+		if(this.runing){
+			if(!this.forward) ctx.scale(-1, 1); 
+			Dario.run(r, g, b, ctx);
+		}else{
+			if(!this.forward) ctx.scale(-1, 1);
+			Dario.stand(r,g,b, ctx);
+		}
+		ctx.restore();
+		
 	};
 };
 
