@@ -12,23 +12,23 @@
                 </div>
                 <div>
                 WON </br>               
-                <input type="number" name="won" value=0 required>
+                <input type="number" name="won" value=0 min=0 required>
                 </div>
                 <div>
                 PLAYED </br>
-                <input type="number" name="played" value=0 required>    
+                <input type="number" name="played" value=0 min=0 required>    
                 </div>
                 <div>
                 KILLS </br>
-                <input type="number" name="kills" value=0 required>  
+                <input type="number" name="kills" value=0 min=0 required>  
                 </div>
                 <div>
                 DEATHS </br>
-                <input type="number" name="deaths" value=0 required>
+                <input type="number" name="deaths" value=0 min=0 required>
                 </div>
                 <div>
                 ADMIN?
-                <input type="checkbox" name="admin" value=1>
+                <input type="checkbox" name="admin"value=1>
                 </div>
                 <div>
                 <input type="submit" value="Create"> 
@@ -53,7 +53,23 @@
             </form>
         </span>
         <span id="account_deleter">
-            <form action="/admin_delete" method="POST">
+            <script type="text/javascript">
+                function delpass(form)
+                {
+                    console.log(form.login.value);
+                    console.log(form.conf.value);
+                    if (form.login.value!=form.conf.value)
+                    {
+                        alert("Name check failed!");
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            </script>
+            <form action="/admin_delete" method="POST" onsubmit="return delpass(this);">
             [--- ACCOUNT DELETER---]
             <div>
                 <select name="login">
@@ -65,7 +81,11 @@
                 </select>
             </div>
             <div>
-            <input type="submit" value="delete">
+                ENTER ACCOUNT NAME FOR CONFIRMATION </br>
+                <input type="text" name="conf" placeholder="Confirmation">
+            </div>
+            <div>
+                <input type="submit" value="delete">
             </div>
             </form>
         </span>

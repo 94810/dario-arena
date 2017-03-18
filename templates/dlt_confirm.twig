@@ -1,10 +1,17 @@
 {% include "css.twig" %}
 
 {% include "navbar.twig" %}
-<h1> YOU'RE ABOUT TO DELETE YOUR DARIO-BATTLE ACCOUNT </h1>
-<h2> all your statistics will be permanantly erased!! </h2>
+
+<div> YOU'RE ABOUT TO DELETE YOUR DARIO-ARENA ACCOUNT </div>
+<div> all your statistics will be permanantly erased!! </div>
 <form action="/delete" method="POST">
+<div>
+ENTER YOUR PASSWORD FOR CONFIRMATION
+<input type="password" name="pass" placeholder="Confirmation">
+</div>
+<div>
 <input type="submit" value="DESTROY MY ACCOUNT">
+</div>
 </form>
 <form action="/account" method="GET">
 <input type="submit" value="BACK">

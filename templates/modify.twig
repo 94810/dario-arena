@@ -7,24 +7,27 @@
                 <div>
                 <input type="hidden" name="login" value={{ old_login }}>
                 WON </br>               
-                <input type="number" name="won" value={{ old_won }} required>
+                <input type="number" name="won" value={{ old_won }} requiredmin=0>
                 </div>
                 <div>
                 PLAYED </br>
-                <input type="number" name="played" value={{ old_played }} required>
+                <input type="number" name="played" value={{ old_played }} required min=0>
                 </div>
                 <div>
                 KILLS </br>
-                <input type="number" name="kills" value={{ old_kills }} required>  
+                <input type="number" name="kills" value={{ old_kills }} required min=0>  
                 </div>
                 <div>
                 DEATHS </br>
-                <input type="number" name="deaths" value={{ old_deaths }} required>
+                <input type="number" name="deaths" value={{ old_deaths }} required min=0>
                 </div>
                 <div>
                 ADMIN?
-                <!--TODO checkbox -->
-                <input type="checkbox" name="admin" value={{ old_admin }}>
+                {% if old_admin %}
+                <input type="checkbox" name="admin" value=1 checked>
+                {% else %}
+                <input type="checkbox" name="admin" value=1>
+                {% endif %}
                 </div>
                 <div>
                 <input type="submit" value="Update account"> 

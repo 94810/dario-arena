@@ -302,11 +302,7 @@ app.get('/admin_modify',function(req,res)
                         console.log(docs[0]);
                         if(docs[0]["admin"]=1)
                         {
-                            var adm="on";
-                        }
-                        else
-                        {
-                            var adm="";
+                            var adm="1";
                         }
                         res.render('modify.twig',{"old_won":docs[0]["Won"],
                                                   "old_played":docs[0]["Played"],
