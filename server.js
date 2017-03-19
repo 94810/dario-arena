@@ -256,8 +256,7 @@ app.get ('/admin',function(req,res)
                 var lel=db.collection("users");
                         if (check_admin(lel,req))
                             {
-                                res.render("error.twig",{"login":req.session.user,
-                                                         "errorcode": 403 });
+                                res.redirect('/error'); 
                             }
                         else
                             {
@@ -311,7 +310,7 @@ app.post('/admin_create',function(req,res)
             }
             else
             {
-                res.redirect('/account');
+                res.redirect('/error');
             }
         });
 });
@@ -343,7 +342,7 @@ app.get('/admin_modify',function(req,res)
                     }
                 else
                     {
-                    res.redirect('/account');
+                    res.redirect('/error');
                     }
             });
     });
@@ -368,7 +367,7 @@ app.post('/admin_modify',function(req,res)
                 }
             else
                 {
-                    res.redirect('/account');
+                    res.redirect('/error');
                 }
             });
     });
@@ -384,11 +383,15 @@ app.post("/admin_delete",function(req,res)
                  }
             else
                 {
-                    res.redirect('/account');
+                    res.redirect('/error');
                 }
             });
 });
 
+
+app.all('/error',function(req,res){
+    res.render('error.twig',{"login":req.session.user});
+});
         
 server.listen(app.get('port'), function() {
   console.log('Node app is running on port '+app.get('port'));  

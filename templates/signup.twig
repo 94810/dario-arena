@@ -1,14 +1,16 @@
 {% include "css.twig" %}
 
-{% include "navbar.twig" %}
-<p>Welcome to Dario Battle!!</p>
+{% include "navbar.twig" %}</br>
+<div id=signup_body>
+<div class="greetings">Welcome to Dario Battle!!</div>
+
 <script type="text/javascript">
 
 function checkpass(form){
     if(form.pass.value!=form.pass2.value){
     console.log(form.pass.value);
     console.log(form.pass2.value);
-    document.querySelector("#uncheck").style.display="inline";
+    document.querySelector(".err").style.display="inline";
     form.pass2.focus();
     return false;
     }
@@ -16,19 +18,22 @@ function checkpass(form){
 }
 </script>
 {% if e %}
-<span id="user_already" style=background:red>
+<span class="err">
 This username is already used, please choose another one!
 </span>
 </br>
 {% endif %}
-<span id="uncheck"style=background:red;display:none;>
+<span class="err"style=display:none;>
 Password doesn't match confirmation!
 </span>
+<div class=body_form>
 <form action="/up" method="POST" onsubmit="return checkpass(this);">
 <input type="text" name="login" placeholder="login" autocomplete="username"  required > </br>
 <input type="password" name="pass" placeholder="password" autocomplete="off" required > </br>
 <input type="password" name="pass2" placeholder="password_check" autocomplete="off" required > </br>
 <input type="submit" value="signup"> 
 </form>
+</div>
 <span> Already have an account? You can login <a href="/login"> here </a> </span>
+</div>
 {% include "endpage.twig" %}
