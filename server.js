@@ -62,6 +62,25 @@ wsS.on('connection', function(wsC){
 });
 // ###### End #########
 
+function check_admin(users,req){
+    console.log("Checking admin for : " +req.session.user);
+    users.find({_id:req.session.user},{"admin":1}).toArray(function(err,docs)
+        {
+            console.log(docs[0]);
+            console.log(docs[0]["admin"]);
+            if(docs[0]["admin"]=="1")
+        {
+            console.log("admin");
+            return true;
+        }
+            else
+        {
+            console.log("Not admin");
+            return false;
+        }
+        });
+}
+
 
 app.get('/signup',function(req,res){
  /*   if (req.query[0]==null)
@@ -232,12 +251,8 @@ app.get ('/admin',function(req,res)
         MongoClient.connect(dburl,function(err,db)
             {
                 var lel=db.collection("users");
-                lel.find({_id:req.session.user},{"admin":1}).toArray(function(err,docs)
-                    {
-                        console.log(docs);
-                        if (!docs[0]["admin"])
+                        if (check_admin(lel,req))
                             {
-                                //res.writeHead(403);
                                 res.render("error.twig",{"login":req.session.user,
                                                          "errorcode": 403 });
                             }
@@ -249,7 +264,6 @@ app.get ('/admin',function(req,res)
                                                              "ulist":docs });
                                     });
                             }
-                    });
             });
         }
         else 
@@ -330,7 +344,7 @@ app.post('/admin_modify',function(req,res)
     MongoClient.connect(dburl,function(err,db)
             {
             var lel=db.collection("users");
-            lel.update({_id:req.body["login"]},{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm});
+            lel.update({_id:req.body["login"]},{$set:{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm}});
         res.redirect('/userlist');
 
             });
