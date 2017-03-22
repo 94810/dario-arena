@@ -14,10 +14,17 @@ var keyboard = {
 				this.jump = bool;
 			break;
 		}
-	}
+	}	
 } 
 window.onkeydown = function (evt){ keyboard.fct(evt, true) }
 window.onkeyup = function (evt) { keyboard.fct(evt, false) }
+
+function web(a, b, c){
+	this.left = ctrl.left;
+	this.right = ctrl.right;
+	this.jump = ctrl.jump;
+}
+
 
 function Player(controller, point, r, g, b){
 
@@ -54,7 +61,7 @@ function Player(controller, point, r, g, b){
 
 		if( (new Date).getTime()-this.lastUpdate > 110 ){
 
-			console.log("Up");	
+		//	console.log("Up");	
 			if(this.ctrl.left){
 				this.pos.x-=spd;
 				this.forward = false;	
@@ -81,7 +88,9 @@ function Player(controller, point, r, g, b){
 			Dario.stand(r,g,b, ctx);
 		}
 		ctx.restore();
-		
 	};
 };
 
+var plL = new Player(keyboard, {'x': 0, 'y':0}, 255, 255, 255); //Local player
+
+var plD = {}; //Distant player
