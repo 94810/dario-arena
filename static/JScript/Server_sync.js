@@ -9,7 +9,7 @@ ws.onopen = function(e) {
 	console.log('HASSHIN');
 	window.requestAnimationFrame(Anim);
 	ws.onmessage = function(e) {
-		console.log(e.data);
+//		console.log(e.data);
 	
 		mess = JSON.parse(e.data);
 		if("name" in mess){
