@@ -1,12 +1,17 @@
 {% include "css.twig" %}
 
 {% include "navbar.twig" %}
-
-<div> YOU'RE ABOUT TO DELETE YOUR DARIO-ARENA ACCOUNT </div>
-<div> all your statistics will be permanantly erased!! </div>
+</br>
+<div id="delete_body">
+<div class="err"> YOU'RE ABOUT TO DELETE YOUR DARIO-ARENA ACCOUNT
+</br>all your statistics will be permanantly erased!!
+{% if failed %}
+</br>WRONG PASSWORD
+{% endif %}
+</div>
 <form action="/delete" method="POST">
 <div>
-ENTER YOUR PASSWORD FOR CONFIRMATION
+ENTER YOUR PASSWORD FOR CONFIRMATION</br>
 <input type="password" name="pass" placeholder="Confirmation">
 </div>
 <div>
@@ -16,5 +21,5 @@ ENTER YOUR PASSWORD FOR CONFIRMATION
 <form action="/account" method="GET">
 <input type="submit" value="BACK">
 </form>
-
+</div>
 {% include "endpage.twig" %}

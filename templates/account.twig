@@ -1,10 +1,18 @@
 {% include "css.twig" %}
 
 {% include "navbar.twig" %}</br>
+<div id="account_body">
 <div class="greetings"> Hello {{ login }}, how are you today? </div></br>
 {% include "stats.twig" %}
 </br>
+<div class="account_link">
 <a href="/arena" > [Placeholder:Link to game]</a></br>
+</div>
+<div class="account_link">
 <a href="/delete" > DELETE MY ACCOUNT</a></br>
+</div>
+<div class="account_link">
 <a href="/logout"> LOGOUT </a></br>
+</div>
+</div>
 {% include "endpage.twig" %}
