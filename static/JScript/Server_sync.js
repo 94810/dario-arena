@@ -17,11 +17,10 @@ ws.onopen = function(e) {
 			wsSN = mess.name;
 		}else if("newp" in mess){
 			console.log('NEWP');
-			plD[mess.newp] = new Player(new web(mess.ctrl), mess.pos, 50,180,500);	
+			plD[mess.newp] = new Player(new web({left : false, right :false , jump : false}), mess.pos, 50,180,500);	
 		}else if(wsSN in mess){
 			for( pl in mess) if(pl != wsSN){
 				plD[pl].pos = mess[pl].pos;
-				plD[pl].ctrl = mess[pl].ctrl;
 			}
 		}
 	
@@ -30,11 +29,5 @@ ws.onopen = function(e) {
 
 
 function sendServData(){
-	var obj = {};
-
-	obj.ctrl = {left : plL.ctrl.left, right : plL.ctrl.right, jump :  plL.ctrl.jump};
-	obj.pos = plL.pos;
-
-	ws.send(JSON.stringify(obj));
-	
+	ws.send(JSON.stringify(plL.pos));	
 }

@@ -60,23 +60,22 @@ wsS.roomC = {}
 
 wsS.on('connection', function(wsC){
 
+	wsC.user = wsC.upgradeReq.session.user ;
+
 	for( i in wsS.room) wsC.send(JSON.stringify({"newp" : i, "pos" : wsS.room[i].pos, "ctrl" : wsS.room[i].ctrl }));
 
-	wsS.room[wsC.upgradeReq.session.user] = { pos : { 'x' : 0, 'y' : 0}, ctrl : {'left' : false, 'right' : false, 'jump' : false}}; 	
-	wsS.roomC[wsC.upgradeReq.session.user] = { "wsC" : wsC }; 
+	wsS.room[wsC.user] = { "pos" : { 'x' : 0, 'y' : 0}, "wsC" : wsC};
 
-	wsC.send(JSON.stringify({"name" : wsC.upgradeReq.session.user}));
-	for( i in wsS.roomC ) if(i != wsC.upgradeReq.session.user) wsS.roomC[i].wsC.send(JSON.stringify({ "newp" : wsC.upgradeReq.session.user,'pos' : { 'x' : 0, 'y' : 0}, 'ctrl' : {'left' : false, 'right' : false, 'jump' : false}}));
+	wsC.send(JSON.stringify({"name" : wsC.user}));
+	
+	for( i in wsS.roomC ) if(i != wsC.user) wsS.room[i].wsC.send(JSON.stringify({ "newp" : wsC.user,'pos' : { 'x' : 0, 'y' : 0}}));
 
 	wsC.on('message', function(data){
 		var cltD = JSON.parse(data);
-	//	console.log("Mssg client");
-		wsS.room[wsC.upgradeReq.session.user].pos = cltD.pos;
-		wsS.room[wsC.upgradeReq.session.user].ctrl = cltD.ctrl;
 
-		for( i in wsS.roomC ) if(i != wsC.upgradeReq.session.user) wsS.roomC[i].wsC.send(JSON.stringify(wsS.room));
+		wsS.room[wsC.user].pos = cltD.pos;
 
-	//	console.log(data);
+		for( i in wsS.roomC ) if(i != wsC.user) wsS.roomC[i].wsC.send(JSON.stringify(wsS.room));
 	});
 });
 // ###### End #########
