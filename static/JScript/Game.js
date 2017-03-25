@@ -19,10 +19,10 @@ var keyboard = {
 window.onkeydown = function (evt){ keyboard.fct(evt, true) }
 window.onkeyup = function (evt) { keyboard.fct(evt, false) }
 
-function web(ctrl){
-	this.left = ctrl.left;
-	this.right = ctrl.right;
-	this.jump = ctrl.jump;
+function web(){
+	this.left = false;
+	this.right = false;
+	this.jump = false;
 }
 
 

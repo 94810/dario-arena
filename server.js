@@ -54,28 +54,42 @@ var wsS = new ws.Server({
 
 
 wsS.room = {}
-wsS.roomC = {}
 
 // ###### WebSocket Logic ########
 
 wsS.on('connection', function(wsC){
 
-	wsC.user = wsC.upgradeReq.session.user ;
+	wsC.user = wsC.upgradeReq.session.user ; //On se "désynchronise" de la session, le Ws prend en charge la suite
 
-	for( i in wsS.room) wsC.send(JSON.stringify({"newp" : i, "pos" : wsS.room[i].pos, "ctrl" : wsS.room[i].ctrl }));
+	console.log(wsS.room);
 
-	wsS.room[wsC.user] = { "pos" : { 'x' : 0, 'y' : 0}, "wsC" : wsC};
+	for( i in wsS.room){
+		wsC.send(JSON.stringify({"newp" : i, "check" : 'kek', "pos" : wsS.room[i].pos })); //On récupére la liste des joueur présent
+		console.log(i+wsS.room[i].pos);
+	}
 
-	wsC.send(JSON.stringify({"name" : wsC.user}));
+	wsS.room[wsC.user] = {};
+	wsS.room[wsC.user].pos = { 'x' : 0 , 'y' : 0 };
+	wsS.room[wsC.user].wsC = wsC ; //On donne l'emplacement initiale du joueur
+
+	wsC.send(JSON.stringify({"name" : wsC.user})); //On send notre propre nom
 	
-	for( i in wsS.roomC ) if(i != wsC.user) wsS.room[i].wsC.send(JSON.stringify({ "newp" : wsC.user,'pos' : { 'x' : 0, 'y' : 0}}));
+	for( i in wsS.room ) if(i != wsC.user) wsS.room[i].wsC.send(JSON.stringify({ "newp" : wsC.user, 'pos' : wsS.room[i].pos } )); //On averti les autres joeur de la connection
+
+	//La connection a la room est compléte
+
+	console.log(wsS.room);
 
 	wsC.on('message', function(data){
 		var cltD = JSON.parse(data);
 
 		wsS.room[wsC.user].pos = cltD.pos;
 
-		for( i in wsS.roomC ) if(i != wsC.user) wsS.roomC[i].wsC.send(JSON.stringify(wsS.room));
+		for( i in wsS.room ) if(i!=wsC.user){
+			obj = {};
+			obj[wsC.user]  = { 'pos' : wsS.room[wsC.user].pos };
+			wsS.room[i].wsC.send(JSON.stringify(obj));
+		}
 	});
 });
 // ###### End #########
