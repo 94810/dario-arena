@@ -2,6 +2,7 @@ var keyboard = {
 	left : false,
 	right : false,
 	jump : false,
+	noctrl : true,
 	fct : function (evt, bool){
 		switch(evt.key.toUpperCase()){
 			case 'Q':
@@ -23,10 +24,11 @@ function web(){
 	this.left = false;
 	this.right = false;
 	this.jump = false;
+	this.noctrl = false;
 }
 
 
-function Player(controller, point, r, g, b){
+function Player(controller, point, r, v, b){
 
 	/*
 		point is an array as { x : someNumber, y: someNumber }
@@ -38,19 +40,21 @@ function Player(controller, point, r, g, b){
 
 	this.forward = true;
 
-	this.g = false; //Falling attribut
+	this.g = false; //Anti multi G (Mono jumping)
+	
+	this.vd = 0 ; //vertical displasment
 
 	this.pos = point;
 
 	this.r = r;
 	
-	this.g = g;
+	this.v = v;
 
 	this.b = b;
 
 	this.lastUpdate = (new Date).getTime();
 
-	this.spd = 10;
+	this.spd = 55;
 
 	this.running=false;
 	/*
@@ -59,33 +63,59 @@ function Player(controller, point, r, g, b){
 
 	this.update = function(ctx){
 
-		if( (new Date).getTime()-this.lastUpdate > 110 ){
-
-		//	console.log("Up");	
-			if(this.ctrl.left){
-				this.pos.x-=spd;
-				this.forward = false;	
-				this.runing = !this.runing;
-			}
-			if(this.ctrl.right){
-				this.pos.x+=spd;
-				this.forward = true;
-				this.runing = !this.runing;
-			}
-			if(this.ctrl.jump) ; // TODO jumping
+		if((new Date).getTime()-this.lastUpdate > 80 ){
+			if(this.ctrl.noctrl){ //Player You want to have local control
+				if(this.ctrl.left){
+					this.pos.x-=this.spd;
+					this.forward = false;	
+				}
+				if(this.ctrl.right){
+					this.pos.x+=this.spd;
+					this.forward = true;
+				}
+				if(this.ctrl.jump && this.g){
+					this.g = false;
+					this.vd = 150;	
+				 }
+				
+				var floor = 700;
 	
+				if(this.pos.y < floor){ // canvas size less dario size
+					if(this.vd > 0) this.vd = this.vd-20;
+					if(this.vd < 0) this.vd = 0;
+				
+					if(floor-this.pos.y > 60) this.pos.y+=60;
+					else{
+						this.pos.y+=floor-this.pos.y;
+					}
+				}else{	
+						this.g = true;
+				}
+				this.pos.y -= this.vd;
+				
+				if(this.pos.x < -20) this.pos.x = 1600-20;
+				if(this.pos.x > 1620) this.pos.x = -20;
+			}
+			
 			this.lastUpdate = (new Date).getTime();
+			this.runing = !this.runing;
 		}
+
 		
 		ctx.save();
-		ctx.translate(this.pos.x, this.pos.y);
-		
-		if(this.runing){
-			if(!this.forward) ctx.scale(-1, 1); 
-			Dario.run(r, g, b, ctx);
+		ctx.translate(this.pos.x, this.pos.y);	
+		if(!this.forward){	
+			 ctx.translate(90,0);
+			 ctx.scale(-1, 1);
+		}
+
+		if(!this.g){
+			Dario.jump(this.r, this.v, this.b, ctx);
+		}else if(this.runing){
+			ctx.translate(0,-5);
+			Dario.run(this.r, this.v, this.b, ctx);
 		}else{
-			if(!this.forward) ctx.scale(-1, 1);
-			Dario.stand(r,g,b, ctx);
+			Dario.stand(this.r, this.v,this.b, ctx);
 		}
 		ctx.restore();
 	};

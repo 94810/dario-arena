@@ -1045,7 +1045,8 @@ var Dario = {
 	blue : 255,
 	fall : false,
 	stand : dario,
-	run : dario_run
+	run : dario_run,
+	jump : dario_jump
 }
 
 

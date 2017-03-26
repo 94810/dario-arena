@@ -61,35 +61,58 @@ wsS.on('connection', function(wsC){
 
 	wsC.user = wsC.upgradeReq.session.user ; //On se "désynchronise" de la session, le Ws prend en charge la suite
 
-	console.log(wsS.room);
-
 	for( i in wsS.room){
-		wsC.send(JSON.stringify({"newp" : i, "check" : 'kek', "pos" : wsS.room[i].pos })); //On récupére la liste des joueur présent
+		wsC.send(JSON.stringify({"newp" : i, "pos" : wsS.room[i].pos, "color" :  wsS.room[i].color })); //On récupére la liste des joueur présent
 		console.log(i+wsS.room[i].pos);
 	}
 
 	wsS.room[wsC.user] = {};
 	wsS.room[wsC.user].pos = { 'x' : 0 , 'y' : 0 };
-	wsS.room[wsC.user].wsC = wsC ; //On donne l'emplacement initiale du joueur
+	wsS.room[wsC.user].wsC = wsC ;
+	wsS.room[wsC.user].way = true;	
+	wsS.room[wsC.user].g = false;
+	wsS.room[wsC.user].color =  wsC.upgradeReq.session.color;
 
-	wsC.send(JSON.stringify({"name" : wsC.user})); //On send notre propre nom
+	wsC.send(JSON.stringify({"name" : wsC.user, "color" : wsS.room[wsC.user].color})); //On send notre propre nom
 	
-	for( i in wsS.room ) if(i != wsC.user) wsS.room[i].wsC.send(JSON.stringify({ "newp" : wsC.user, 'pos' : wsS.room[i].pos } )); //On averti les autres joeur de la connection
+	for( i in wsS.room ) if(i != wsC.user) wsS.room[i].wsC.send(JSON.stringify({ "newp" : wsC.user, 'pos' : wsS.room[i].pos, "color" : wsS.room[wsC.user].color} )); //On averti les autres joueur de la connection
 
 	//La connection a la room est compléte
-
-	console.log(wsS.room);
 
 	wsC.on('message', function(data){
 		var cltD = JSON.parse(data);
 
 		wsS.room[wsC.user].pos = cltD.pos;
+		wsS.room[wsC.user].way = cltD.way;
+		wsS.room[wsC.user].g = cltD.g;
 
 		for( i in wsS.room ) if(i!=wsC.user){
+			
+			// On send a tout le monde le nouveaux positionnement
+
 			obj = {};
-			obj[wsC.user]  = { 'pos' : wsS.room[wsC.user].pos };
+			obj[wsC.user] = { 'pos' : wsS.room[wsC.user].pos, 'way' : wsS.room[wsC.user].way , 'g' : wsS.room[wsC.user].g };
 			wsS.room[i].wsC.send(JSON.stringify(obj));
+
+			//ON vérifie les kills
+
+			if( !wsS.room[wsC.user].g){ //Player jumping
+				if(wsS.room[wsC.user].pos.y <= wsS.room[i].pos.y && wsS.room[wsC.user].pos.y+100 >= wsS.room[i].pos.y){ // Y box 100 is aprox Dario size
+					if(wsS.room[wsC.user].pos.x <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x >= wsS.room[i].pos.x){ //X box (please microsoft no sue !)
+						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));
+					}if(wsS.room[wsC.user].pos.x+100 <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x+100 >= wsS.room[i].pos.x){	
+						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));
+					}
+				}
+			}
+			
+						
 		}
+	});
+	
+	wsC.on('close', function(){
+		delete wsS.room[wsC.user];
+		for(i in wsS.room) wsS.room[i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
 	});
 });
 // ###### End #########
@@ -118,11 +141,12 @@ app.post('/up',function(req,res)
                         var iterations=1000;
                         crypto.pbkdf2(req.body["pass"],salt,iterations,128,'sha512',function(err,hash)
                             {
-                        lel.insert([ { "_id": req.body["login"],"Password": hash.toString('hex'),"Kills": 0,"Deaths":0,"Salt":salt,"Played":0,"Won":0,"admin":0}],function(err,result)
+                        lel.insert([ { "_id": req.body["login"],"Password": hash.toString('hex'), "color" : req.body.color, "Kills": 0,"Deaths":0,"Salt":salt,"Played":0,"Won":0,"admin":0}],function(err,result)
                                 {
                                 });
                             });
                         req.session.user = req.body["login"];
+			req.session.color = req.body.color;
                         res.redirect('/account');
                         }
                     else
@@ -143,7 +167,8 @@ app.all('/account',function(req,res)
             var lel=db.collection("users")
             lel.find({_id:req.session.user},{"Password":0,"Salt":0}).toArray(function(err,docs)
                 {
-                console.log(docs[0])
+                console.log(docs[0]);
+		req.session.color=docs[0]["color"];
                 res.render('account.twig',{"login":req.session.user,
                                            "Won":docs[0]["Won"],
                                            "Killed":docs[0]["Kills"],
