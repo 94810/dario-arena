@@ -40,7 +40,7 @@ ws.onopen = function(e) {
 			console.log('KILL'+mess.kill);
 			
 			if(mess.kill == wsSN){
-				plL.pos = { x : 0, y : 0};
+				plL.pos = { x : Math.floor(Math.random()*1600), y : 0};
 				plL.g = false; 
 			}
 		}
