@@ -154,6 +154,10 @@ app.post('/up',function(req,res)
                         res.redirect('/signup?e=1');
                         }
                 }
+                else
+                {
+                    res.redirect('/error');
+                }
             })
         })
     });
@@ -167,14 +171,21 @@ app.all('/account',function(req,res)
             var lel=db.collection("users")
             lel.find({_id:req.session.user},{"Password":0,"Salt":0}).toArray(function(err,docs)
                 {
-                console.log(docs[0]);
-		req.session.color=docs[0]["color"];
-                res.render('account.twig',{"login":req.session.user,
-                                           "Won":docs[0]["Won"],
-                                           "Killed":docs[0]["Kills"],
-                                           "Played":docs[0]["Played"],
-                                           "Deaths":docs[0]["Deaths"]
-                                           });
+                    if (!err)
+                    {
+                        //console.log(docs[0]);
+		                req.session.color=docs[0]["color"];
+                        res.render('account.twig',{ "login":req.session.user,
+                                                    "Won":docs[0]["Won"],
+                                                    "Killed":docs[0]["Kills"],
+                                                    "Played":docs[0]["Played"],
+                                                    "Deaths":docs[0]["Deaths"]
+                                                  });
+                    }
+                    else
+                    {
+                        res.redirect('/error');
+                    }
                 });
             });
         }
@@ -203,24 +214,38 @@ app.post('/login',function(req,res)
             var lel=db.collection("users")
             lel.find({_id:req.body["login"]},{_id:1,"Password":1,"Salt":1}).toArray(function(err,docs)
             {
-                if (docs[0]==null)
+                if (!err)
                 {
-                    res.render('login.twig',{"failed":1});
+                    if (docs[0]==null)
+                    {
+                        res.render('login.twig',{"failed":1});
+                    }
+                    else
+                    {   
+                        crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
+                        {
+                            if (!err)
+                            {
+                                if (docs[0]["Password"]!=hash.toString('hex'))
+                                {
+                                    res.render('login.twig',{"failed":2});
+                                }
+                                else
+                                {   
+                                    req.session.user=docs[0]["_id"];
+                                    res.redirect("/account");
+                                }
+                            }
+                            else
+                            {
+                                res.redirect('/error');
+                            }
+                        });
+                    }
                 }
                 else
                 {
-                    crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
-                    {
-                        if (docs[0]["Password"]!=hash.toString('hex'))
-                        {
-                            res.render('login.twig',{"failed":2});
-                        }
-                        else
-                        {
-                            req.session.user=docs[0]["_id"];
-                            res.redirect("/account");
-                        }
-                    });
+                    res.redirect('/error');
                 }
             });
         });
@@ -251,30 +276,51 @@ app.post('/delete',function(req,res)
             var lel=db.collection("users");
             lel.find({_id:req.session.user},{_id:1,"Password":1,"Salt":1}).toArray(function(err,docs)
             {
-                if (docs[0]==null)
+                if (!err)
                 {
-                    res.render('dlt_confirm.twig',{"failed":1});
-                    //cannot happen in normal state
+                    if (docs[0]==null)
+                    {
+                        res.render('dlt_confirm.twig',{"failed":1});
+                        //cannot happen in normal state
+                    }
+                    else
+                    {
+                        crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
+                        {
+                            if (!err)
+                            {
+                                if (docs[0]["Password"]!=hash.toString('hex'))
+                                {
+                                    res.render('dlt_confirm.twig',{"failed":1,
+                                                                   "login":req.session.user});
+                                }
+                                else
+                                {
+
+                                    lel.remove({_id:req.session.user},function(err,result)
+                                        {
+                                            if (!err)
+                                            {
+                                                req.session.user=null;
+                                                res.redirect("/signup");
+                                            }
+                                            else 
+                                            {
+                                                res.redirect("/error");
+                                            }
+                                        });
+                                }
+                            }
+                            else
+                            {
+                                res.redirect('/error');
+                            }
+                        });
+                    }
                 }
                 else
                 {
-                    crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
-                    {
-                        if (docs[0]["Password"]!=hash.toString('hex'))
-                        {
-                            res.render('dlt_confirm.twig',{"failed":1,
-                                                           "login":req.session.user});
-                        }
-                        else
-                        {
-
-                            lel.remove({_id:req.session.user},function(err,result)
-                                {
-                                    req.session.user=null;
-                                    res.redirect("/signup");
-                                });
-                        }
-                    });
+                    res.redirect('/error');
                 }
         });
     });
@@ -292,9 +338,16 @@ app.get('/userlist',function(req,res)
                 var lel=db.collection("users");
                 lel.find({},{Password:0,Salt:0,admin:0,lastModified:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
                     {
-                        res.render('userlist.twig',{"docs":docs,
-                                                    "login":req.session.user
-                                                    });
+                        if (!err)
+                        {
+                            res.render('userlist.twig',{"docs":docs,
+                                                        "login":req.session.user
+                                                        });
+                        }
+                        else
+                        {
+                            res.redirect('/error');
+                        }
                     });
             });
 
