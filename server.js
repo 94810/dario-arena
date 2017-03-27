@@ -156,6 +156,10 @@ app.post('/up',function(req,res)
                         res.redirect('/signup?e=1');
                         }
                 }
+                else
+                {
+                    res.redirect('/error');
+                }
             })
         })
     });
@@ -169,14 +173,22 @@ app.all('/account',function(req,res)
             var lel=db.collection("users")
             lel.find({_id:req.session.user},{"Password":0,"Salt":0}).toArray(function(err,docs)
                 {
-                console.log(docs[0]);
-		req.session.color=docs[0]["color"];
-                res.render('account.twig',{"login":req.session.user,
-                                           "Won":docs[0]["Won"],
-                                           "Killed":docs[0]["Kills"],
-                                           "Played":docs[0]["Played"],
-                                           "Deaths":docs[0]["Deaths"]
-                                           });
+                    if (!err)
+                    {
+                        //console.log(docs[0]);
+		                req.session.color=docs[0]["color"];
+                        res.render('account.twig',{ "login":req.session.user,
+                                                    "Won":docs[0]["Won"],
+                                                    "Killed":docs[0]["Kills"],
+                                                    "Played":docs[0]["Played"],
+                                                    "Deaths":docs[0]["Deaths"],
+                                                    "color":docs[0]["color"]
+                                                  });
+                    }
+                    else
+                    {
+                        res.redirect('/error');
+                    }
                 });
             });
         }
@@ -184,6 +196,24 @@ app.all('/account',function(req,res)
         {
             res.redirect('/login');
         }
+    });
+
+app.post('/modify_color',function(req,res)
+    {
+        if(req.session.user)
+        {
+            MongoClient.connect(dburl,function(err,db)
+            {
+                var lel=db.collection("users")
+                lel.update({_id:req.session.user},{$set:{"color":req.body["color"]}});
+                res.redirect('/account');
+            });
+        }
+        else
+        {
+            res.redirect('/error');
+        }
+    
     });
 
 app.get('/login',function(req,res)
@@ -205,24 +235,38 @@ app.post('/login',function(req,res)
             var lel=db.collection("users")
             lel.find({_id:req.body["login"]},{_id:1,"Password":1,"Salt":1}).toArray(function(err,docs)
             {
-                if (docs[0]==null)
+                if (!err)
                 {
-                    res.render('login.twig',{"failed":1});
+                    if (docs[0]==null)
+                    {
+                        res.render('login.twig',{"failed":1});
+                    }
+                    else
+                    {   
+                        crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
+                        {
+                            if (!err)
+                            {
+                                if (docs[0]["Password"]!=hash.toString('hex'))
+                                {
+                                    res.render('login.twig',{"failed":2});
+                                }
+                                else
+                                {   
+                                    req.session.user=docs[0]["_id"];
+                                    res.redirect("/account");
+                                }
+                            }
+                            else
+                            {
+                                res.redirect('/error');
+                            }
+                        });
+                    }
                 }
                 else
                 {
-                    crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
-                    {
-                        if (docs[0]["Password"]!=hash.toString('hex'))
-                        {
-                            res.render('login.twig',{"failed":2});
-                        }
-                        else
-                        {
-                            req.session.user=docs[0]["_id"];
-                            res.redirect("/account");
-                        }
-                    });
+                    res.redirect('/error');
                 }
             });
         });
@@ -253,30 +297,51 @@ app.post('/delete',function(req,res)
             var lel=db.collection("users");
             lel.find({_id:req.session.user},{_id:1,"Password":1,"Salt":1}).toArray(function(err,docs)
             {
-                if (docs[0]==null)
+                if (!err)
                 {
-                    res.render('dlt_confirm.twig',{"failed":1});
-                    //cannot happen in normal state
+                    if (docs[0]==null)
+                    {
+                        res.render('dlt_confirm.twig',{"failed":1});
+                        //cannot happen in normal state
+                    }
+                    else
+                    {
+                        crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
+                        {
+                            if (!err)
+                            {
+                                if (docs[0]["Password"]!=hash.toString('hex'))
+                                {
+                                    res.render('dlt_confirm.twig',{"failed":1,
+                                                                   "login":req.session.user});
+                                }
+                                else
+                                {
+
+                                    lel.remove({_id:req.session.user},function(err,result)
+                                        {
+                                            if (!err)
+                                            {
+                                                req.session.user=null;
+                                                res.redirect("/signup");
+                                            }
+                                            else 
+                                            {
+                                                res.redirect("/error");
+                                            }
+                                        });
+                                }
+                            }
+                            else
+                            {
+                                res.redirect('/error');
+                            }
+                        });
+                    }
                 }
                 else
                 {
-                    crypto.pbkdf2(req.body["pass"],docs[0]["Salt"],1000,128,'sha512',function(err,hash)
-                    {
-                        if (docs[0]["Password"]!=hash.toString('hex'))
-                        {
-                            res.render('dlt_confirm.twig',{"failed":1,
-                                                           "login":req.session.user});
-                        }
-                        else
-                        {
-
-                            lel.remove({_id:req.session.user},function(err,result)
-                                {
-                                    req.session.user=null;
-                                    res.redirect("/signup");
-                                });
-                        }
-                    });
+                    res.redirect('/error');
                 }
         });
     });
@@ -292,11 +357,18 @@ app.get('/userlist',function(req,res)
             MongoClient.connect(dburl,function(err,db)
             {
                 var lel=db.collection("users");
-                lel.find({},{Password:0,Salt:0,admin:0,lastModified:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
+                lel.find({},{Password:0,Salt:0,admin:0,lastModified:0,color:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
                     {
-                        res.render('userlist.twig',{"docs":docs,
-                                                    "login":req.session.user
-                                                    });
+                        if (!err)
+                        {
+                            res.render('userlist.twig',{"docs":docs,
+                                                        "login":req.session.user
+                                                        });
+                        }
+                        else
+                        {
+                            res.redirect('/error');
+                        }
                     });
             });
 
@@ -364,7 +436,7 @@ app.post('/admin_create',function(req,res)
                         var iterations=1000;
                         crypto.pbkdf2(req.body["pass"],salt,iterations,128,'sha512',function(err,hash)
                         {
-                            lel.insert([ { "_id": req.body["login"],"Password": hash.toString('hex'),"Kills": req.body["kills"],"Deaths":req.body["deaths"],"Salt":salt,"Played":req.body["played"],"Won":req.body["won"],"admin":adm}],function(err,result)
+                            lel.insert([ { "_id": req.body["login"],"Password": hash.toString('hex'),"color":req.body["color"],"Kills": req.body["kills"],"Deaths":req.body["deaths"],"Salt":salt,"Played":req.body["played"],"Won":req.body["won"],"admin":adm}],function(err,result)
                                     {
                                         res.redirect("/userlist");
                                     });
@@ -407,6 +479,7 @@ app.get('/admin_modify',function(req,res)
                                                               "old_kills":docs[0]["Kills"],
                                                               "old_deaths":docs[0]["Deaths"],
                                                               "old_admin":adm,
+                                                              "old_color":docs[0]["color"],
                                                               "login":req.session.user,
                                                               "old_login":req.query["login"]
                                                              });
@@ -417,6 +490,7 @@ app.get('/admin_modify',function(req,res)
                                                               "old_played":docs[0]["Played"],
                                                               "old_kills":docs[0]["Kills"],
                                                               "old_deaths":docs[0]["Deaths"],
+                                                              "old_color":docs[0]["color"],
                                                               "login":req.session.user,
                                                               "old_login":req.query["login"]
                                                              });
@@ -457,7 +531,7 @@ app.post('/admin_modify',function(req,res)
                     {
                     if (docs[0]["admin"])
                         {
-                            lel.update({_id:req.body["login"]},{$set:{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm}});
+                            lel.update({_id:req.body["login"]},{$set:{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm,"color":req.body["color"]}});
                             res.redirect('/userlist');
                         }
                     else
