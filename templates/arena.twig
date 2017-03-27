@@ -5,8 +5,12 @@
 {% include "navbar.twig" %}
 
 <div id='game'>
-	<canvas id='gameCanvas' width='1600' height='800' >
-	</canvas>
+
+	<canvas id='gameCanvas' width='1600' height='800' ></canvas>
+
+	<audio src="media/jump.ogg" id='A_jump' style="display:none" type="audio/ogg"></audio>	
+	<audio src="media/kill.ogg" id='A_kill' style="display:none" type="audio/ogg"></audio>	
+
 	<script src="JScript/Dario_draw.js" type="application/javascript"></script>	
 	<script src="JScript/Game.js" type="application/javascript"></script>
 	<script src="JScript/Test_anim.js" type="application/javascript"></script>

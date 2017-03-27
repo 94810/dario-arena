@@ -73,9 +73,9 @@ function Player(controller, point, r, v, b){
 					this.pos.x+=this.spd;
 					this.forward = true;
 				}
-				if(this.ctrl.jump && this.g){
+				if(this.ctrl.jump && this.vd>0){
 					this.g = false;
-					this.vd = 150;	
+					this.vd = 150;
 				 }
 				
 				var floor = 700;
