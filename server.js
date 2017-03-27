@@ -179,7 +179,8 @@ app.all('/account',function(req,res)
                                                     "Won":docs[0]["Won"],
                                                     "Killed":docs[0]["Kills"],
                                                     "Played":docs[0]["Played"],
-                                                    "Deaths":docs[0]["Deaths"]
+                                                    "Deaths":docs[0]["Deaths"],
+                                                    "color":docs[0]["color"]
                                                   });
                     }
                     else
@@ -193,6 +194,24 @@ app.all('/account',function(req,res)
         {
             res.redirect('/login');
         }
+    });
+
+app.post('/modify_color',function(req,res)
+    {
+        if(req.session.user)
+        {
+            MongoClient.connect(dburl,function(err,db)
+            {
+                var lel=db.collection("users")
+                lel.update({_id:req.session.user},{$set:{"color":req.body["color"]}});
+                res.redirect('/account');
+            });
+        }
+        else
+        {
+            res.redirect('/error');
+        }
+    
     });
 
 app.get('/login',function(req,res)
@@ -336,7 +355,7 @@ app.get('/userlist',function(req,res)
             MongoClient.connect(dburl,function(err,db)
             {
                 var lel=db.collection("users");
-                lel.find({},{Password:0,Salt:0,admin:0,lastModified:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
+                lel.find({},{Password:0,Salt:0,admin:0,lastModified:0,color:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
                     {
                         if (!err)
                         {

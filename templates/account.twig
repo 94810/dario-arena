@@ -5,6 +5,15 @@
 <div class="greetings"> Hello {{ login }}, how are you today? </div></br>
 {% include "stats.twig" %}
 </br>
+<div>
+<form method="POST" action=/modify_color>
+<div>
+<input type=color name=color value={{ color }}>
+</div>
+<div>
+<input type=submit value="Update color">
+</div>
+</form>
 <div class="account_link">
 <a href="/arena" > [Placeholder:Link to game]</a></br>
 </div>
