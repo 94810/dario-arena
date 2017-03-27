@@ -434,7 +434,7 @@ app.post('/admin_create',function(req,res)
                         var iterations=1000;
                         crypto.pbkdf2(req.body["pass"],salt,iterations,128,'sha512',function(err,hash)
                         {
-                            lel.insert([ { "_id": req.body["login"],"Password": hash.toString('hex'),"Kills": req.body["kills"],"Deaths":req.body["deaths"],"Salt":salt,"Played":req.body["played"],"Won":req.body["won"],"admin":adm}],function(err,result)
+                            lel.insert([ { "_id": req.body["login"],"Password": hash.toString('hex'),"color":req.body["color"],"Kills": req.body["kills"],"Deaths":req.body["deaths"],"Salt":salt,"Played":req.body["played"],"Won":req.body["won"],"admin":adm}],function(err,result)
                                     {
                                         res.redirect("/userlist");
                                     });
@@ -477,6 +477,7 @@ app.get('/admin_modify',function(req,res)
                                                               "old_kills":docs[0]["Kills"],
                                                               "old_deaths":docs[0]["Deaths"],
                                                               "old_admin":adm,
+                                                              "old_color":docs[0]["color"],
                                                               "login":req.session.user,
                                                               "old_login":req.query["login"]
                                                              });
@@ -487,6 +488,7 @@ app.get('/admin_modify',function(req,res)
                                                               "old_played":docs[0]["Played"],
                                                               "old_kills":docs[0]["Kills"],
                                                               "old_deaths":docs[0]["Deaths"],
+                                                              "old_color":docs[0]["color"],
                                                               "login":req.session.user,
                                                               "old_login":req.query["login"]
                                                              });
@@ -527,7 +529,7 @@ app.post('/admin_modify',function(req,res)
                     {
                     if (docs[0]["admin"])
                         {
-                            lel.update({_id:req.body["login"]},{$set:{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm}});
+                            lel.update({_id:req.body["login"]},{$set:{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm,"color":req.body["color"]}});
                             res.redirect('/userlist');
                         }
                     else
