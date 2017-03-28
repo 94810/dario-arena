@@ -92,6 +92,7 @@ wsS.on('connection', function(wsC){
 		for( i in wsS.room ) if(i!=wsC.user){
 	
 			if( !wsS.room[wsC.user].g && wsS.room[i].alive){ //Player jumping
+				console.log("#########################KILL LOG FROM "+wsC.user+" ON USER "+i);
 				wsS.room[i].alive=false;
 				if(wsS.room[wsC.user].pos.y <= wsS.room[i].pos.y && wsS.room[wsC.user].pos.y+100 >= wsS.room[i].pos.y){ // Y box 100 is aprox Dario size
 					if(wsS.room[wsC.user].pos.x <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x >= wsS.room[i].pos.x){ //X box (please microsoft no sue !)	
