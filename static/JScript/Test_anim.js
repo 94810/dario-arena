@@ -1,9 +1,9 @@
 function Anim(){
 	
 	var ctx = document.getElementById('gameCanvas').getContext('2d');
-	//ctx.clearRect(0,0,900,150);
-	ctx.fillStyle = 'green';
-	ctx.fillRect(0,0,1600,800);
+	ctx.clearRect(0,0,1600,800);
+//	ctx.fillStyle = 'green';
+//	ctx.fillRect(0,0,1600,800);
 
 	plL.update(ctx);
 

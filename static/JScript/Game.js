@@ -1,3 +1,15 @@
+function SoundPlay(evt){
+	var audio;
+
+	if(evt == "JUMP"){
+		audio = document.getElementById('A_jump');	
+	}else if(evt == "KILL"){
+		audio = document.getElementById('A_kill');
+	}
+
+	audio.play();
+} 
+
 var keyboard = {
 	left : false,
 	right : false,
@@ -75,13 +87,18 @@ function Player(controller, point, r, v, b){
 				}
 				if(this.ctrl.jump && this.g){
 					this.g = false;
-					this.vd = 150;	
+					SoundPlay('JUMP');
+					this.vd = 150;
 				 }
 				
 				var floor = 700;
 	
 				if(this.pos.y < floor){ // canvas size less dario size
-					if(this.vd > 0) this.vd = this.vd-20;
+					if(this.vd > 0){
+						 this.vd = this.vd-20;
+						this.g = false; //crappy fix
+					}
+
 					if(this.vd < 0) this.vd = 0;
 				
 					if(floor-this.pos.y > 60) this.pos.y+=60;

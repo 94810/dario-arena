@@ -100,8 +100,10 @@ wsS.on('connection', function(wsC){
 				if(wsS.room[wsC.user].pos.y <= wsS.room[i].pos.y && wsS.room[wsC.user].pos.y+100 >= wsS.room[i].pos.y){ // Y box 100 is aprox Dario size
 					if(wsS.room[wsC.user].pos.x <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x >= wsS.room[i].pos.x){ //X box (please microsoft no sue !)
 						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));
+						wsS.room[i].pos = {'x' : -200, 'y' : -200};
 					}if(wsS.room[wsC.user].pos.x+100 <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x+100 >= wsS.room[i].pos.x){	
 						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));
+						wsS.room[i].pos = {'x' : -200, 'y' : -200};
 					}
 				}
 			}
