@@ -87,6 +87,8 @@ wsS.on('connection', function(wsC){
 		wsS.room[wsC.user].way = cltD.way;
 		wsS.room[wsC.user].g = cltD.g;
 
+		if('alive' in cltD) wsS.room[wsC.user].alive = cltD.alive;
+
 		for( i in wsS.room ) if(i!=wsC.user){
 
 			// On send a tout le monde le nouveaux positionnement
