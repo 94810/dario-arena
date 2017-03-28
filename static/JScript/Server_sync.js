@@ -43,6 +43,7 @@ ws.onopen = function(e) {
 				plL.pos = { x : Math.floor(Math.random()*1600), y : 0};
 				plL.g = false; 
 			}
+			sendServData(true);
 		}
 		else{
 			for( pl in mess){
@@ -61,6 +62,8 @@ ws.onopen = function(e) {
 };
 
 
-function sendServData(){
-	ws.send(JSON.stringify({'pos' : plL.pos, 'way' : plL.forward, 'g' : plL.g }));
+function sendServData(alive){
+	if(alive) ws.send(JSON.stringify({'pos' : plL.pos, 'way' : plL.forward, 'g' : plL.g }));
+	else ws.send(JSON.stringify({'pos' : plL.pos, 'way' : plL.forward, 'g' : plL.g, 'alive' : true }));
+ 
 }
