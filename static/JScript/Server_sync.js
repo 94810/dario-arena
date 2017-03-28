@@ -1,4 +1,4 @@
-var ws = new WebSocket("wss://"+window.location.host);
+var ws = new WebSocket("ws://"+window.location.host);
 
 var wsSN  = "";
 
@@ -38,7 +38,7 @@ ws.onopen = function(e) {
 			delete plD[mess.dsc];
 		}else if("kill" in mess){
 			console.log('KILL'+mess.kill);
-			
+			SoundPlay('KILL');	
 			if(mess.kill == wsSN){
 				plL.pos = { x : Math.floor(Math.random()*1600), y : 0};
 				plL.g = false; 
@@ -48,6 +48,11 @@ ws.onopen = function(e) {
 			for( pl in mess){
 				plD[pl].pos = mess[pl].pos;
 				plD[pl].forward = mess[pl].way;
+				
+				if(plD[pl].g == true && mess[pl].g == false){
+					SoundPlay('JUMP');
+				}
+				
 				plD[pl].g = mess[pl].g;
 			}
 		}
