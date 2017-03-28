@@ -96,8 +96,10 @@ wsS.on('connection', function(wsC){
 				if(wsS.room[wsC.user].pos.y <= wsS.room[i].pos.y && wsS.room[wsC.user].pos.y+100 >= wsS.room[i].pos.y){ // Y box 100 is aprox Dario size
 					if(wsS.room[wsC.user].pos.x <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x >= wsS.room[i].pos.x){ //X box (please microsoft no sue !)	
 						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));
+						console.log("#############################KILL "+i);
 					}else if(wsS.room[wsC.user].pos.x+100 <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x+100 >= wsS.room[i].pos.x){		
-						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));
+						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));	
+						console.log("#############################KILL "+i);
 					}else wsS.room[i].alive=true;
 				}else  wsS.room[i].alive=true;
 			}
@@ -107,8 +109,9 @@ wsS.on('connection', function(wsC){
 			obj[wsC.user] = { 'pos' : wsS.room[wsC.user].pos, 'way' : wsS.room[wsC.user].way , 'g' : wsS.room[wsC.user].g };
 			wsS.room[i].wsC.send(JSON.stringify(obj));
 
-			//ON vérifie les kills	
+			//ON vérifie les kills				
 		}
+
 	});
 	
 	wsC.on('close', function(){
