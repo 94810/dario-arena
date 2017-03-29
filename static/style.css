@@ -46,7 +46,7 @@ body{
 #userlist{
     float:left;
     font-weight:bold;
-    margin-top:7.5%;
+    margin-top:5%;
 }
 #userlist td{
     text-align:center;
@@ -194,3 +194,18 @@ body{
     border-radius:5px;
     padding: 10px 10px 10px 10px;
 }
+#list_body table{
+    text-align:center;
+    background-color:rgba(255,255,255,0.25);
+    border-radius:5px;
+    width:40%;
+    margin-left:30%;
+}
+#list_body table th{
+    font-weight:bold;
+    font-size:large;
+}
+#list_body table tr{
+    margin-top:0.5%;
+}
+
