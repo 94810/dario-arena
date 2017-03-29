@@ -19,6 +19,7 @@ body{
 }
 #login{
     width:30%;
+    margin-top:0.5%;
 }
 #navbar span form{
     margin-top:-1%;
