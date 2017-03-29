@@ -1,12 +1,12 @@
 {% include "css.twig" %}
 {% include "navbar.twig" %}
-</br>
+<br>
 <div id="login_body">
 <div class="greetings">Welcome back!</div>
 {% if failed==1 %}
 <span class="err">
 I'm afraid this account doesn't exist...
-</span></br>
+</span><br>
 <a href="/signup"> You can create one here</a>
 {% endif %}
 {% if failed==2 %}
@@ -16,12 +16,12 @@ Wrong password
 {% endif %}
 <div class="body_form">
 <form action="/login" method="POST">
-<input type="text" name="login" placeholder="login" autocomplete="username"  required > </br>
-<input type="password" name="pass" placeholder="password" autocomplete="off" required > </br>
+<input type="text" name="login" placeholder="login" autocomplete="username"  required > <br>
+<input type="password" name="pass" placeholder="password" autocomplete="off" required > <br>
 <input type="submit" value="login"> 
 </form>
 </div>
-</br>
+<br>
 <span> No account? You can signup <a href="/signup"> here </a> </span>
 </div>
 {% include "endpage.twig" %}

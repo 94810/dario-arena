@@ -1,6 +1,6 @@
 {% include "css.twig" %}
 
-{% include "navbar.twig" %}</br>
+{% include "navbar.twig" %}<br>
 <div id=signup_body>
 <div class="greetings">Welcome to Dario Battle!!</div>
 
@@ -21,17 +21,17 @@ function checkpass(form){
 <span class="err">
 This username is already used, please choose another one!
 </span>
-</br>
+<br>
 {% endif %}
 <span class="err"style=display:none;>
 Password doesn't match confirmation!
 </span>
 <div class=body_form>
 <form action="/up" method="POST" onsubmit="return checkpass(this);">
-<input type="text" name="login" placeholder="login" autocomplete="username"  required > </br>
-<input type="password" name="pass" placeholder="password" autocomplete="off" required > </br>
-<input type="password" name="pass2" placeholder="password_check" autocomplete="off" required > </br>
-<input type="color" name="color"> </br>
+<input type="text" name="login" placeholder="login" autocomplete="username"  required > <br>
+<input type="password" name="pass" placeholder="password" autocomplete="off" required > <br>
+<input type="password" name="pass2" placeholder="password_check" autocomplete="off" required > <br>
+<input type="color" name="color"> <br>
 <input type="submit" value="signup"> 
 </form>
 </div>

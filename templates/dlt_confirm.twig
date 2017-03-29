@@ -1,17 +1,17 @@
 {% include "css.twig" %}
 
 {% include "navbar.twig" %}
-</br>
+<br>
 <div id="delete_body">
 <div class="err"> YOU'RE ABOUT TO DELETE YOUR DARIO-ARENA ACCOUNT
-</br>all your statistics will be permanantly erased!!
+<br>all your statistics will be permanantly erased!!
 {% if failed %}
-</br>WRONG PASSWORD
+<br>WRONG PASSWORD
 {% endif %}
 </div>
 <form action="/delete" method="POST">
 <div>
-ENTER YOUR PASSWORD FOR CONFIRMATION</br>
+ENTER YOUR PASSWORD FOR CONFIRMATION<br>
 <input type="password" name="pass" placeholder="Confirmation">
 </div>
 <div>
