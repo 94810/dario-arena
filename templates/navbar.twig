@@ -1,6 +1,6 @@
 <div id="navbar" style=width:100%>
     <span id="home" style=float:left;>
-        <a href='/home'> 
+        <a href='/home'>
             Home
         </a>
     </span>
@@ -32,17 +32,19 @@
         </a>
     </span>
     <span id="login" style=float:right;>
-        <form action='/login' method='POST'>
-            <span class="navfield">
-                <input type="text" name="login" placeholder="Username" required>
-            </span>
-            <span class="navfield">
-                <input type="password" name="pass" placeholder="Password" required>
-            </span>
-            <span class="navfield">
-                <input type="submit" value="Login">
-            </span>
-        </form>
+        <div id="container" >
+            <form action='/login' method='POST'>
+                <span class="navfield">
+                    <input type="text" name="login" placeholder="Username" required>
+                </span>
+                <span class="navfield">
+                    <input type="password" name="pass" placeholder="Password" required>
+                </span>
+                <span class="navfield">
+                    <input type="submit" value="Login">
+                </span>
+            </form>
+        </div>
     </span>
 
     {% endif %}

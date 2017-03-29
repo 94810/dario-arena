@@ -64,7 +64,7 @@ body{
 
 #stats{
     border-collapse: separate;
-    border-spacing:0.5% 0.5%;
+    border-spacing:5px;
     margin-left:25%;
 }
 #account_modifier{
