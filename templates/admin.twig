@@ -1,7 +1,7 @@
 {% include "css.twig" %}
 {% include "navbar.twig" %}
     <div id="admin_page">
-        <span id="account_creator">
+        <div id="account_creator">
             <form action="/admin_create" method="POST">
                [---ACCOUNT CREATOR ---] 
                 <div>
@@ -32,14 +32,14 @@
                 </div>
                 <div>
                 ADMIN?
-                <input type="checkbox" name="admin"value=1>
+                <input type="checkbox" name="admin" value=1>
                 </div>
                 <div>
                 <input type="submit" value="Create"> 
                 </div>
             </form>
-        </span>
-        <span id="account_modifier">
+        </div>
+        <div id="account_modifier">
             <form action="/admin_modify" method="GET">
             [--- ACCOUNT MODIFYER---]
             <div>
@@ -55,8 +55,8 @@
             <input type="submit" value="Modify">
             </div>
             </form>
-        </span>
-        <span id="account_deleter">
+        </div>
+        <div id="account_deleter">
             <script type="text/javascript">
                 function delpass(form)
                 {
@@ -92,6 +92,6 @@
                 <input type="submit" value="delete">
             </div>
             </form>
-        </span>
+        </div>
     </div>
 {% include "endpage.twig" %}

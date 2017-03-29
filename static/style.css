@@ -38,8 +38,10 @@ body{
     text-align:center;
     float:left;
     font-weight:bold;
-    margin-top:7.5%;
-    margin-left:2%;
+    margin-top:5%;
+    background-color:rgba(255,255,255,0.25);
+    border-radius:5px;
+    padding: 10px 10px 10px 10px;
 }
 #userlist{
     float:left;
@@ -72,20 +74,26 @@ body{
     text-align:center;
     float:left;
     font-weight:bold;
-    margin-top:7.5%;
-    margin-left:2%;
-    margin-right:2%;
+    margin-top:5%;
+    margin-left:5.61%;
+    margin-right:5.61%;
+    background-color:rgba(255,255,255,0.25);
+    border-radius:5px;
+    padding: 10px 10px 10px 10px;
 }
 #account_deleter{
     text-align:center;
     font-weight:bold;
-    margin-top:7.5%;
+    margin-top:5%;
     float:left;
-    margin-right:2%
+    background-color:rgba(255,255,255,0.25);
+    border-radius:5px;
+    padding: 10px 10px 10px 10px;
 }
 #admin_page{
     text-align:center;
-    width:100%;
+    width:70%;
+    margin-left:15%;
 }
 
 #account_modifier div{
@@ -175,4 +183,14 @@ body{
     margin-left:0.5%;
     font-weight:bold;
     font-size:large;
+}
+#account_md_page{
+    text-align:center;
+    float:left;
+    font-weight:bold;
+    margin-top:5%;
+    margin-left:37.6%;
+    background-color:rgba(255,255,255,0.25);
+    border-radius:5px;
+    padding: 10px 10px 10px 10px;
 }
