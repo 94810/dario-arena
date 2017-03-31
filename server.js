@@ -472,17 +472,17 @@ app.get('/admin_modify',function(req,res)
                             {
                             lel.find({_id:req.query["login"]},{Password:0,Salt:0,lastModified:0}).toArray(function(err,docs)
                                 {
-                                    console.log("Is this gonna crash?");
-                                    console.log(docs);
-                                    console.log(docs.length);
+                                    //console.log("Is this gonna crash?");
+                                    //console.log(docs);
+                                    //console.log(docs.length);
                                     if (docs.length==0)
                                     {   
-                                        console.log("OUT!");
+                                       // console.log("OUT!");
                                         res.redirect('/error');
                                     }
                                     else
                                     {
-                                        console.log(docs[0]);
+                                        //console.log(docs[0]);
                                         if(docs[0]["admin"]==1)
                                         {
                                             var adm="1";
@@ -543,10 +543,6 @@ app.post('/admin_modify',function(req,res)
                 var lel=db.collection("users");
                 lel.find({_id:req.session.user},{"admin":1}).toArray(function(err,docs)
                     {
-                    if(docs.length)
-                    {
-                        res.redirect('/error');
-                    }
                     if (docs[0]["admin"])
                         {
                             lel.update({_id:req.body["login"]},{$set:{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm,"color":req.body["color"]}});
