@@ -102,12 +102,15 @@ wsS.on('connection', function(wsC){
 				if(wsS.rL[wsC.room][wsC.user].pos.y <= wsS.rL[wsC.room][i].pos.y && wsS.rL[wsC.room][wsC.user].pos.y+100 >= wsS.rL[wsC.room][i].pos.y){ // Y box 100 is aprox Dario size
 
 					if(wsS.rL[wsC.room][wsC.user].pos.x <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x >= wsS.rL[wsC.room][i].pos.x){ //X box (please microsoft no sue !)	
-
+						
+						 wsS.rL[wsC.room][i].pos.y = -300;
+						
 						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
 						console.log("############################# FIRST"+wsC.user+" KILL"+i);
 
 					}else if(wsS.rL[wsC.room][wsC.user].pos.x+100 <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x+100 >= wsS.rL[wsC.room][i].pos.x){
-
+						wsS.rL[wsC.room][i].pos.y =-300
+				
 						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
 						console.log("############################# SECOND"+wsC.user+" KILL"+i);
 
