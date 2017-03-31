@@ -53,62 +53,65 @@ var wsS = new ws.Server({
 });
 
 
-wsS.room = {}
+wsS.rL = {};
+wsS.rL['NoobLand'] = {};
+wsS.rL['GodLikeMidget'] = {};
 
 // ###### WebSocket Logic ########
 
 wsS.on('connection', function(wsC){
 
 	wsC.user = wsC.upgradeReq.session.user ; //On se "désynchronise" de la session, le Ws prend en charge la suite
+	wsC.room = wsC.upgradeReq.session.room ;
 
-	for( i in wsS.room){
-		wsC.send(JSON.stringify({"newp" : i, "pos" : wsS.room[i].pos, "color" :  wsS.room[i].color })); //On récupére la liste des joueur présent
-		console.log(i+wsS.room[i].pos);
+	for( i in wsS.rL[wsC.room]){
+		wsC.send(JSON.stringify({"newp" : i, "pos" : wsS.rL[wsC.room][i].pos, "color" :  wsS.rL[wsC.room][i].color })); //On récupére la liste des joueur présent
+		console.log(i+wsS.rL[wsC.room][i].pos);
 	}
 
-	wsS.room[wsC.user] = {};
-	wsS.room[wsC.user].pos = { 'x' : 0 , 'y' : 0 };
-	wsS.room[wsC.user].wsC = wsC ;
-	wsS.room[wsC.user].way = true;	
-	wsS.room[wsC.user].g = false;	
-	wsS.room[wsC.user].alive = true;
-	wsS.room[wsC.user].color =  wsC.upgradeReq.session.color;
+	wsS.rL[wsC.room][wsC.user] = {};
+	wsS.rL[wsC.room][wsC.user].pos = { 'x' : 0 , 'y' : 0 };
+	wsS.rL[wsC.room][wsC.user].wsC = wsC ;
+	wsS.rL[wsC.room][wsC.user].way = true;	
+	wsS.rL[wsC.room][wsC.user].g = false;	
+	wsS.rL[wsC.room][wsC.user].alive = true;
+	wsS.rL[wsC.room][wsC.user].color =  wsC.upgradeReq.session.color;
 
-	wsC.send(JSON.stringify({"name" : wsC.user, "color" : wsS.room[wsC.user].color})); //On send notre propre nom
+	wsC.send(JSON.stringify({"name" : wsC.user, "color" : wsS.rL[wsC.room][wsC.user].color})); //On send notre propre nom
 	
-	for( i in wsS.room ) if(i != wsC.user) wsS.room[i].wsC.send(JSON.stringify({ "newp" : wsC.user, 'pos' : wsS.room[i].pos, "color" : wsS.room[wsC.user].color} )); //On averti les autres joueur de la connection
+	for( i in wsS.rL[wsC.room] ) if(i != wsC.user) wsS.rL[wsC.room][i].wsC.send(JSON.stringify({ "newp" : wsC.user, 'pos' : wsS.rL[wsC.room][i].pos, "color" : wsS.rL[wsC.room][wsC.user].color} )); //On averti les autres joueur de la connection
 
 	//La connection a la room est compléte
 
 	wsC.on('message', function(data){
 		var cltD = JSON.parse(data);
 
-		wsS.room[wsC.user].pos = cltD.pos;
-		wsS.room[wsC.user].way = cltD.way;
-		wsS.room[wsC.user].g = cltD.g;
+		wsS.rL[wsC.room][wsC.user].pos = cltD.pos;
+		wsS.rL[wsC.room][wsC.user].way = cltD.way;
+		wsS.rL[wsC.room][wsC.user].g = cltD.g;
 
-		if('alive' in cltD) wsS.room[wsC.user].alive = cltD.alive;
+		if('alive' in cltD) wsS.rL[wsC.room][wsC.user].alive = cltD.alive;
 
-		for( i in wsS.room ) if(i!=wsC.user){
+		for( i in wsS.rL[wsC.room] ) if(i!=wsC.user){
 	
-			if( !wsS.room[wsC.user].g && wsS.room[i].alive){ //Player jumping
+			if( !wsS.rL[wsC.room][wsC.user].g && wsS.rL[wsC.room][i].alive){ //Player jumping
 				console.log("#########################KILL LOG FROM "+wsC.user+" ON USER "+i);
-				wsS.room[i].alive=false;
-				if(wsS.room[wsC.user].pos.y <= wsS.room[i].pos.y && wsS.room[wsC.user].pos.y+100 >= wsS.room[i].pos.y){ // Y box 100 is aprox Dario size
-					if(wsS.room[wsC.user].pos.x <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x >= wsS.room[i].pos.x){ //X box (please microsoft no sue !)	
-						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));
+				wsS.rL[wsC.room][i].alive=false;
+				if(wsS.rL[wsC.room][wsC.user].pos.y <= wsS.rL[wsC.room][i].pos.y && wsS.rL[wsC.room][wsC.user].pos.y+100 >= wsS.rL[wsC.room][i].pos.y){ // Y box 100 is aprox Dario size
+					if(wsS.rL[wsC.room][wsC.user].pos.x <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x >= wsS.rL[wsC.room][i].pos.x){ //X box (please microsoft no sue !)	
+						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
 						console.log("#############################KILL "+i);
-					}else if(wsS.room[wsC.user].pos.x+100 <= wsS.room[i].pos.x+100 && wsS.room[wsC.user].pos.x+100 >= wsS.room[i].pos.x){		
-						for( j in wsS.room ) wsS.room[j].wsC.send(JSON.stringify({"kill" : i}));	
+					}else if(wsS.rL[wsC.room][wsC.user].pos.x+100 <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x+100 >= wsS.rL[wsC.room][i].pos.x){		
+						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));	
 						console.log("#############################KILL "+i);
-					}else wsS.room[i].alive=true;
-				}else  wsS.room[i].alive=true;
+					}else wsS.rL[wsC.room][i].alive=true;
+				}else  wsS.rL[wsC.room][i].alive=true;
 			}
 			// On send a tout le monde le nouveaux positionnement
 
 			obj = {};
-			obj[wsC.user] = { 'pos' : wsS.room[wsC.user].pos, 'way' : wsS.room[wsC.user].way , 'g' : wsS.room[wsC.user].g };
-			wsS.room[i].wsC.send(JSON.stringify(obj));
+			obj[wsC.user] = { 'pos' : wsS.rL[wsC.room][wsC.user].pos, 'way' : wsS.rL[wsC.room][wsC.user].way , 'g' : wsS.rL[wsC.room][wsC.user].g };
+			wsS.rL[wsC.room][i].wsC.send(JSON.stringify(obj));
 
 			//ON vérifie les kills				
 		}
@@ -116,8 +119,8 @@ wsS.on('connection', function(wsC){
 	});
 	
 	wsC.on('close', function(){
-		delete wsS.room[wsC.user];
-		for(i in wsS.room) wsS.room[i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
+		delete wsS.rL[wsC.room][wsC.user];
+		for(i in wsS.rL[wsC.room]) wsS.rL[wsC.room][i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
 	});
 });
 // ###### End #########
@@ -412,10 +415,17 @@ app.get('/', function(req, res){
 });
 
 app.get('/arena', function(req, res){
-	
-	if(req.session.user) res.render("arena.twig");
-	else res.redirect("/login");
+	if(req.session.user) res.render('room.twig');
 });
+
+app.post('/arena', function(req, res){
+	if(req.session.user && req.body.room in wsS.rL){
+		req.session.room = req.body.room ; 
+		res.render("arena.twig");
+	}
+	else res.render('room.twig');
+});
+
 app.post('/admin_create',function(req,res)
     {
         if (req.session.user)
