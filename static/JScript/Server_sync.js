@@ -1,4 +1,4 @@
-var ws = new WebSocket("wss://"+window.location.host);
+var ws = new WebSocket("ws://"+window.location.host);
 
 var wsSN  = "";
 

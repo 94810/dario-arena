@@ -54,9 +54,11 @@ var wsS = new ws.Server({
 
 
 wsS.rL = {};
+
 wsS.rL['NoobLand'] = {};
 wsS.rL['GodLikeMidget'] = {};
 
+var roomOc = {'NoobLand' : {'num' : 0, 'max' : 8}, 'GodLikeMidget' : {'num' : 0, 'max' : 8}};
 // ###### WebSocket Logic ########
 
 wsS.on('connection', function(wsC){
@@ -64,10 +66,7 @@ wsS.on('connection', function(wsC){
 	wsC.user = wsC.upgradeReq.session.user ; //On se "désynchronise" de la session, le Ws prend en charge la suite
 	wsC.room = wsC.upgradeReq.session.room ;
 
-	for( i in wsS.rL[wsC.room]){
-		wsC.send(JSON.stringify({"newp" : i, "pos" : wsS.rL[wsC.room][i].pos, "color" :  wsS.rL[wsC.room][i].color })); //On récupére la liste des joueur présent
-		console.log(i+wsS.rL[wsC.room][i].pos);
-	}
+	for( i in wsS.rL[wsC.room]) wsC.send(JSON.stringify({"newp" : i, "pos" : wsS.rL[wsC.room][i].pos, "color" :  wsS.rL[wsC.room][i].color })); //On récupére la liste des joueur présent
 
 	wsS.rL[wsC.room][wsC.user] = {};
 	wsS.rL[wsC.room][wsC.user].pos = { 'x' : 0 , 'y' : 0 };
@@ -415,15 +414,21 @@ app.get('/', function(req, res){
 });
 
 app.get('/arena', function(req, res){
-	if(req.session.user) res.render('room.twig');
+	if(req.session.user){
+		var Room = {} ;
+		var i=0;
+		for(key in wsS.rL){
+			Room[key] = roomOc[key].num+" on "+roomOc[key].max;
+		}
+		res.render('room.twig', { 'rlist' : Room} ) ;
+	}else res.redirect('/login');
 });
 
 app.post('/arena', function(req, res){
 	if(req.session.user && req.body.room in wsS.rL){
-		req.session.room = req.body.room ; 
-		res.render("arena.twig");
-	}
-	else res.render('room.twig');
+			req.session.room = req.body.room ;
+			res.render("arena.twig") ;
+	}else res.render('room.twig') ;
 });
 
 app.post('/admin_create',function(req,res)
