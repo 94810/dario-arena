@@ -472,6 +472,8 @@ app.get('/admin_modify',function(req,res)
                             {
                             lel.find({_id:req.query["login"]},{Password:0,Salt:0,lastModified:0}).toArray(function(err,docs)
                                 {
+                                    console.log("Is this gonna crash?");
+                                    console.log(docs);
                                     if (docs[0]==null)
                                     {
                                         res.redirect('/error');
