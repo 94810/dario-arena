@@ -474,7 +474,7 @@ app.get('/admin_modify',function(req,res)
                                 {
                                     console.log("Is this gonna crash?");
                                     console.log(docs);
-                                    if (docs[0]==null)
+                                    if (docs[0])
                                     {
                                         res.redirect('/error');
                                     }
