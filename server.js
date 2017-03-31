@@ -482,32 +482,43 @@ app.get('/admin_modify',function(req,res)
                             {
                             lel.find({_id:req.query["login"]},{Password:0,Salt:0,lastModified:0}).toArray(function(err,docs)
                                 {
-                                    console.log(docs[0]);
-                                    if(docs[0]["admin"]==1)
-                                    {
-                                        var adm="1";
-                            
-                                    res.render('modify.twig',{"old_won":docs[0]["Won"],
-                                                              "old_played":docs[0]["Played"],
-                                                              "old_kills":docs[0]["Kills"],
-                                                              "old_deaths":docs[0]["Deaths"],
-                                                              "old_admin":adm,
-                                                              "old_color":docs[0]["color"],
-                                                              "login":req.session.user,
-                                                              "old_login":req.query["login"]
-                                                             });
+                                    //console.log("Is this gonna crash?");
+                                    //console.log(docs);
+                                    //console.log(docs.length);
+                                    if (docs.length==0)
+                                    {   
+                                       // console.log("OUT!");
+                                        res.redirect('/error');
                                     }
                                     else
                                     {
-                                    res.render('modify.twig',{"old_won":docs[0]["Won"],
-                                                              "old_played":docs[0]["Played"],
-                                                              "old_kills":docs[0]["Kills"],
-                                                              "old_deaths":docs[0]["Deaths"],
-                                                              "old_color":docs[0]["color"],
-                                                              "login":req.session.user,
-                                                              "old_login":req.query["login"]
-                                                             });
+                                        //console.log(docs[0]);
+                                        if(docs[0]["admin"]==1)
+                                        {
+                                            var adm="1";
+                            
+                                            res.render('modify.twig',{  "old_won":docs[0]["Won"],
+                                                                        "old_played":docs[0]["Played"],
+                                                                        "old_kills":docs[0]["Kills"],
+                                                                        "old_deaths":docs[0]["Deaths"],
+                                                                        "old_admin":adm,
+                                                                        "old_color":docs[0]["color"],
+                                                                        "login":req.session.user,
+                                                                        "old_login":req.query["login"]
+                                                                     });
+                                        }
+                                        else
+                                        {
+                                        res.render('modify.twig',{  "old_won":docs[0]["Won"],
+                                                                    "old_played":docs[0]["Played"],
+                                                                    "old_kills":docs[0]["Kills"],
+                                                                    "old_deaths":docs[0]["Deaths"],
+                                                                    "old_color":docs[0]["color"],
+                                                                    "login":req.session.user,
+                                                                    "old_login":req.query["login"]
+                                                                 });
 
+                                        }
                                     }
 
                                 });
