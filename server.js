@@ -474,7 +474,7 @@ app.get('/admin_modify',function(req,res)
                                 {
                                     console.log("Is this gonna crash?");
                                     console.log(docs);
-                                    if (docs)
+                                    if (docs.length)
                                     {
                                         res.redirect('/error');
                                     }
@@ -538,7 +538,7 @@ app.post('/admin_modify',function(req,res)
                 var lel=db.collection("users");
                 lel.find({_id:req.session.user},{"admin":1}).toArray(function(err,docs)
                     {
-                    if(docs[0]==null)
+                    if(docs.length)
                     {
                         res.redirect('/error');
                     }
