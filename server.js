@@ -480,32 +480,35 @@ app.get('/admin_modify',function(req,res)
                                         console.log("OUT!");
                                         res.redirect('/error');
                                     }
-                                    console.log(docs[0]);
-                                    if(docs[0]["admin"]==1)
-                                    {
-                                        var adm="1";
-                            
-                                    res.render('modify.twig',{"old_won":docs[0]["Won"],
-                                                              "old_played":docs[0]["Played"],
-                                                              "old_kills":docs[0]["Kills"],
-                                                              "old_deaths":docs[0]["Deaths"],
-                                                              "old_admin":adm,
-                                                              "old_color":docs[0]["color"],
-                                                              "login":req.session.user,
-                                                              "old_login":req.query["login"]
-                                                             });
-                                    }
                                     else
                                     {
-                                    res.render('modify.twig',{"old_won":docs[0]["Won"],
-                                                              "old_played":docs[0]["Played"],
-                                                              "old_kills":docs[0]["Kills"],
-                                                              "old_deaths":docs[0]["Deaths"],
-                                                              "old_color":docs[0]["color"],
-                                                              "login":req.session.user,
-                                                              "old_login":req.query["login"]
-                                                             });
+                                        console.log(docs[0]);
+                                        if(docs[0]["admin"]==1)
+                                        {
+                                            var adm="1";
+                            
+                                            res.render('modify.twig',{  "old_won":docs[0]["Won"],
+                                                                        "old_played":docs[0]["Played"],
+                                                                        "old_kills":docs[0]["Kills"],
+                                                                        "old_deaths":docs[0]["Deaths"],
+                                                                        "old_admin":adm,
+                                                                        "old_color":docs[0]["color"],
+                                                                        "login":req.session.user,
+                                                                        "old_login":req.query["login"]
+                                                                     });
+                                        }
+                                        else
+                                        {
+                                        res.render('modify.twig',{  "old_won":docs[0]["Won"],
+                                                                    "old_played":docs[0]["Played"],
+                                                                    "old_kills":docs[0]["Kills"],
+                                                                    "old_deaths":docs[0]["Deaths"],
+                                                                    "old_color":docs[0]["color"],
+                                                                    "login":req.session.user,
+                                                                    "old_login":req.query["login"]
+                                                                 });
 
+                                        }
                                     }
 
                                 });
