@@ -74,7 +74,9 @@ wsS.on('connection', function(wsC){
 	wsS.rL[wsC.room][wsC.user].way = true;	
 	wsS.rL[wsC.room][wsC.user].g = false;	
 	wsS.rL[wsC.room][wsC.user].alive = true;
-	wsS.rL[wsC.room][wsC.user].color =  wsC.upgradeReq.session.color;
+	wsS.rL[wsC.room][wsC.user].color =  wsC.upgradeReq.session.color;	
+	wsS.rL[wsC.room][wsC.user].kill = 0;	
+	wsS.rL[wsC.room][wsC.user].death =  0;
 
 	wsC.send(JSON.stringify({"name" : wsC.user, "color" : wsS.rL[wsC.room][wsC.user].color})); //On send notre propre nom
 	
@@ -95,7 +97,7 @@ wsS.on('connection', function(wsC){
 
 		for( i in wsS.rL[wsC.room] ) if(i!=wsC.user){
 	
-			if( !wsS.rL[wsC.room][wsC.user].g && wsS.rL[wsC.room][i].alive){ //Player jumping
+			if(!wsS.rL[wsC.room][wsC.user].g && wsS.rL[wsC.room][i].alive){ //Player jumping
 
 				wsS.rL[wsC.room][i].alive = false ;
 
@@ -103,16 +105,15 @@ wsS.on('connection', function(wsC){
 
 					if(wsS.rL[wsC.room][wsC.user].pos.x <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x >= wsS.rL[wsC.room][i].pos.x){ //X box (please microsoft no sue !)	
 						
-						 wsS.rL[wsC.room][i].pos.y = -300;
-						
+						wsS.rL[wsC.room][i].pos.y = -300;
+						wsS.rL[wsC.room][i].pos.x = -300;
 						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
-						console.log("############################# FIRST"+wsC.user+" KILL"+i);
 
 					}else if(wsS.rL[wsC.room][wsC.user].pos.x+100 <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x+100 >= wsS.rL[wsC.room][i].pos.x){
-						wsS.rL[wsC.room][i].pos.y =-300
-				
+						
+						wsS.rL[wsC.room][i].pos.y = -300;
+						wsS.rL[wsC.room][i].pos.x = -300;
 						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
-						console.log("############################# SECOND"+wsC.user+" KILL"+i);
 
 					}else wsS.rL[wsC.room][i].alive=true;
 
@@ -130,6 +131,10 @@ wsS.on('connection', function(wsC){
 	});
 	
 	wsC.on('close', function(){
+		
+		var dbC = db.collection("users")
+                lel.update({_id:req.session.user},{$set:});
+
 		delete wsS.rL[wsC.room][wsC.user];
 		for(i in wsS.rL[wsC.room]) wsS.rL[wsC.room][i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
 	});
@@ -231,7 +236,7 @@ app.post('/modify_color',function(req,res)
             res.redirect('/error');
         }
     
-    });
+});
 
 app.get('/login',function(req,res)
     {
