@@ -150,6 +150,7 @@ wsS.on('connection', function(wsC){
 		}
 
 		delete wsS.rL[wsC.room][wsC.user];
+		
 	});
 });
 // ###### End #########
