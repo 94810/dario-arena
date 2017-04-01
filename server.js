@@ -458,7 +458,7 @@ app.all('/arena', function(req, res){
 	if(req.session.user){
 		if(req.method == 'POST' ){
 			if(req.body.room in wsS.rL){
-					if(roomOc[req.body.room].num+1 <= roomOc[req.body.room].max){
+					if(roomOc[req.body.room].num+1 <= roomOc[req.body.room].max && !(req.session.user in wsS.rL[req.body.room])){
 						roomOc[req.body.room].num+=1;
 						req.session.room = req.body.room ;
 						res.render("arena.twig", {"login" : req.session.user}) ;
