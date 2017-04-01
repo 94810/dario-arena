@@ -107,12 +107,17 @@ wsS.on('connection', function(wsC){
 						
 						wsS.rL[wsC.room][i].pos.y = -300;
 						wsS.rL[wsC.room][i].pos.x = -300;
+						wsS.rL[wsC.room][i].death+=1;
+						wsS.rL[wsC.room][wsC.user].kill+=1;		
 						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
 
 					}else if(wsS.rL[wsC.room][wsC.user].pos.x+100 <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x+100 >= wsS.rL[wsC.room][i].pos.x){
 						
 						wsS.rL[wsC.room][i].pos.y = -300;
 						wsS.rL[wsC.room][i].pos.x = -300;
+						wsS.rL[wsC.room][i].death+=1;
+						wsS.rL[wsC.room][wsC.user].kill+=1;
+
 						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
 
 					}else wsS.rL[wsC.room][i].alive=true;
@@ -131,7 +136,7 @@ wsS.on('connection', function(wsC){
 	});
 	
 	wsC.on('close', function(){
-		
+
 		var dbC = db.collection("users")
                 lel.update({_id:req.session.user},{$set:});
 
@@ -427,22 +432,25 @@ app.get('/', function(req, res){
 	res.redirect("/home");
 });
 
-app.get('/arena', function(req, res){
-	if(req.session.user){
-		var Room = {} ;
-		var i=0;
-		for(key in wsS.rL){
-			Room[key] = roomOc[key].num+" on "+roomOc[key].max;
-		}
-		res.render('room.twig', { 'rlist' : Room, "login" : req.session.user} ) ;
-	}else res.redirect('/login');
-});
+function roomSelect(req, res){
+	var Room = {} ;
+	var i=0;
+	for(key in wsS.rL){
+		Room[key] = roomOc[key].num+" on "+roomOc[key].max;
+	}
+	res.render('room.twig', { 'rlist' : Room, "login" : req.session.user}) ;
+}
 
-app.post('/arena', function(req, res){
-	if(req.session.user && req.body.room in wsS.rL){
-			req.session.room = req.body.room ;
-			res.render("arena.twig", {"login" : req.session.user}) ;
-	}else res.render('room.twig') ;
+app.all('/arena', function(req, res){
+	if(req.method == 'POST' ){
+		if(req.body.room in wsS.rL){
+				if(roomOc[req.body.room].num+1 <= roomOc[req.body.room].max){
+					roomOc[req.body.room].num+=1;
+					req.session.room = req.body.room ;
+					res.render("arena.twig", {"login" : req.session.user}) ;
+				}else roomSelect(req, res);
+		}else roomSelect(req, res);
+	}else roomSelect(req, res);
 });
 
 app.post('/admin_create',function(req,res)
