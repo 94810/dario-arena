@@ -136,7 +136,7 @@ wsS.on('connection', function(wsC){
 	});
 	
 	wsC.on('close', function(){
-		for(i in wsS.rL[wsC.room]) wsS.rL[wsC.room][i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
+		for(i in wsS.rL[wsC.room]) if(i != wsC.user )wsS.rL[wsC.room][i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
 
 		MongoClient.connect(dburl,function(err,db){
 			var lel = db.collection("users")
