@@ -138,9 +138,13 @@ wsS.on('connection', function(wsC){
 	wsC.on('close', function(){
 		for(i in wsS.rL[wsC.room]) if(i != wsC.user )wsS.rL[wsC.room][i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
 
+		var Ktemp = wsS.rL[wsC.room][wsC.user].kill;
+		var Dtemp = wsS.rL[wsC.room][wsC.user].death;
+
 		MongoClient.connect(dburl,function(err,db){
-			var lel = db.collection("users")
-            		lel.update({_id:req.session.user},{$inc:{"Kills":wSS.rL[wsC.room][wsC.user].kill,"Deaths":wSS.rL[wsC.room][wsC.user].death}});
+			var lel = db.collection("users");
+
+            		lel.update({_id:wsC.user},{$inc:{"Kills":Ktemp ,"Deaths":Dtemp}});
 		});
 
 
@@ -451,15 +455,17 @@ function roomSelect(req, res){
 }
 
 app.all('/arena', function(req, res){
-	if(req.method == 'POST' ){
-		if(req.body.room in wsS.rL){
-				if(roomOc[req.body.room].num+1 <= roomOc[req.body.room].max){
-					roomOc[req.body.room].num+=1;
-					req.session.room = req.body.room ;
-					res.render("arena.twig", {"login" : req.session.user}) ;
-				}else roomSelect(req, res);
+	if(req.session.user){
+		if(req.method == 'POST' ){
+			if(req.body.room in wsS.rL){
+					if(roomOc[req.body.room].num+1 <= roomOc[req.body.room].max){
+						roomOc[req.body.room].num+=1;
+						req.session.room = req.body.room ;
+						res.render("arena.twig", {"login" : req.session.user}) ;
+					}else roomSelect(req, res);
+			}else roomSelect(req, res);
 		}else roomSelect(req, res);
-	}else roomSelect(req, res);
+	}else res.redirect('/login');
 });
 
 app.post('/admin_create',function(req,res)
