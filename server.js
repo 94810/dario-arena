@@ -597,7 +597,7 @@ app.post('/admin_modify',function(req,res)
                     {
                     if (docs[0]["admin"])
                         {
-                            lel.update({_id:req.body["login"]},{$set:{"Deaths":req.body["deaths"],"Kills":req.body["kills"],"Played":req.body["played"],"Won":req.body["won"],"admin":adm,"color":req.body["color"]}});
+                            lel.update({_id:req.body["login"]},{$set:{"Deaths":parseInt(req.body["deaths"]),"Kills":parseInt(req.body["kills"]),"Played":parseInt(req.body["played"]),"Won":parseInt(req.body["won"]),"admin":adm,"color":req.body["color"]}});
                             res.redirect('/userlist');
                         }
                     else
