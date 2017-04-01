@@ -138,11 +138,11 @@ wsS.on('connection', function(wsC){
 	wsC.on('close', function(){
 		for(i in wsS.rL[wsC.room]) wsS.rL[wsC.room][i].wsC.send(JSON.stringify({ 'dsc' : wsC.user }));
 
-		MongoClient.connect(dburl,function(err,db)
-        	{
+		MongoClient.connect(dburl,function(err,db){
 			var lel = db.collection("users")
-            		lel.update({_id:req.session.user},{$set:{"kills":$add:["$kills",wSS.rL[wsC.room][wsC.user].kill], "deaths":$add:["$deaths",}wSS.rL[wsC.room][wsC.user].death]});
+            		lel.update({_id:req.session.user},{$inc:{"kills":wSS.rL[wsC.room][wsC.user].kill],"deaths":wSS.rL[wsC.room][wsC.user].death]}
 		});
+
 
 		if(wsC.upgradeReq.session.user){
 			roomOc[wsC.room].num -= 1;
