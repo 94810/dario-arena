@@ -108,7 +108,8 @@ wsS.on('connection', function(wsC){
 						wsS.rL[wsC.room][i].pos.y = -300;
 						wsS.rL[wsC.room][i].pos.x = -300;
 						wsS.rL[wsC.room][i].death+=1;
-						wsS.rL[wsC.room][wsC.user].kill+=1;		
+						wsS.rL[wsC.room][wsC.user].kill+=1;	
+
 						for( j in wsS.rL[wsC.room] ) wsS.rL[wsC.room][j].wsC.send(JSON.stringify({"kill" : i}));
 
 					}else if(wsS.rL[wsC.room][wsC.user].pos.x+100 <= wsS.rL[wsC.room][i].pos.x+100 && wsS.rL[wsC.room][wsC.user].pos.x+100 >= wsS.rL[wsC.room][i].pos.x){
@@ -130,7 +131,6 @@ wsS.on('connection', function(wsC){
 			obj[wsC.user] = { 'pos' : wsS.rL[wsC.room][wsC.user].pos, 'way' : wsS.rL[wsC.room][wsC.user].way , 'g' : wsS.rL[wsC.room][wsC.user].g };
 			wsS.rL[wsC.room][i].wsC.send(JSON.stringify(obj));
 
-			//On vérifie les kills		
 		}
 
 	});
