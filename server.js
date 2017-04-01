@@ -139,7 +139,7 @@ wsS.on('connection', function(wsC){
 		MongoClient.connect(dburl,function(err,db)
             {
 		    var lel = db.collection("users")
-            lel.update({_id:req.session.user},{$set:{"kills":$add:["$kills",wSS.rL[wsC.room][wsC.user].kill], "deaths":$add:["$deaths",}wSS.rL[wsC.room][wsC.user].death]});
+            lel.update({_id:req.session.user},{$inc:{"kills":wSS.rL[wsC.room][wsC.user].kill],"deaths":wSS.rL[wsC.room][wsC.user].death]}});
 
             });
 
