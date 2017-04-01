@@ -211,16 +211,16 @@ app.all('/account',function(req,res)
             MongoClient.connect(dburl,function(err,db)
             {
             var lel=db.collection("users")
-            lel.find({_id:req.session.user},{"Password":0,"Salt":0}).toArray(function(err,docs)
+            lel.find({_id:req.session.user},{"Password":0,"Salt":0,"Played":0,"Won":0,"admin":0}).toArray(function(err,docs)
                 {
                     if (!err)
                     {
                         //console.log(docs[0]);
 		                req.session.color=docs[0]["color"];
                         res.render('account.twig',{ "login":req.session.user,
-                                                    "Won":docs[0]["Won"],
+                                                   //"Won":docs[0]["Won"],
                                                     "Killed":docs[0]["Kills"],
-                                                    "Played":docs[0]["Played"],
+                                                    //"Played":docs[0]["Played"],
                                                     "Deaths":docs[0]["Deaths"],
                                                     "color":docs[0]["color"]
                                                   });
@@ -394,7 +394,7 @@ app.get('/userlist',function(req,res)
             MongoClient.connect(dburl,function(err,db)
             {
                 var lel=db.collection("users");
-                lel.find({},{Password:0,Salt:0,admin:0,lastModified:0,color:0}).sort({Won:-1,Kills:-1}).toArray(function(err,docs)
+                lel.find({},{Password:0,Salt:0,admin:0,lastModified:0,color:0,Won:0,Played:0}).sort({Kills:-1}).toArray(function(err,docs)
                     {
                         if (!err)
                         {
