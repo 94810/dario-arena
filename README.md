@@ -31,3 +31,15 @@
 * Client : HTML 5, Javascript, WebSocket
 
 
+##Installer et Lancer
+
+* npm install 
+* npm start
+* Le site sera disponible sur le port 8080
+
+##Note
+
+* Le site travaille avec une base de donnée distante hébergée par le site mlab.com. Il ne fonctionnera pas si il ne peut y accéder!
+
+
+
